@@ -1,0 +1,37 @@
+# config
+cover: /img/img-bg.jpg
+logo: /img/logo.svg
+bio: 作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj
+
+# Content
+excerpt_link: Read More
+
+# Header  nav
+menu:
+  Home: /
+  Archive: /archive
+  Images: /images
+  Contact: /about/
+
+##Private: /private
+
+# nav.fonticon.css
+navclass:
+  Home: icon-home
+  Archive: icon-news
+  Images: icon-image
+  Wiki: icon-wiki
+  Favorites: icon-Favorites
+  Contact: icon-mail
+
+##Private: icon-lock
+rss: /atom.xml
+
+# Miscellaneous
+google_analytics: UA-72355167-1
+favicon: /favicon.png
+twitter:
+google_plus:
+fb_admins:
+fb_app_id:
+
