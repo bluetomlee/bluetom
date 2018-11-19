@@ -559,7 +559,7 @@
                 },
                 avatarUrl: function(e) {
                     if(location.protocol === 'https:') {
-                        return 'https://liyi.it/img/avatar.jpeg';
+                        return 'https://avatars1.githubusercontent.com/u/3226165?s=88&v=4';
                     }
                     return e.avatar_url || rt.data.default_avatar_url
                 },
