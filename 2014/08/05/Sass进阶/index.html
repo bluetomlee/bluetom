@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Sass进阶 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2014-08-05T10:51:40.000Z" itemprop="datePublished">
+          2014-08-05
+      </time>
+    
+</span>
+    <h3 class="post-title">Sass进阶</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <p>Sass进阶</p>
+<pre><code>compass create homework   //建立工程项目
+cd homework             
+compass watch
+`&lt;/pre&gt;
+
+除了最初的
+
+&lt;pre&gt;`@import &quot;../images/*.png&quot;;
+`&lt;/pre&gt;
+
+##### 通过include来调用compass生成的minin
+
+&lt;pre&gt;`@include all-images-sprites;
+`&lt;/pre&gt;
+
+##### 混合宏实现名称命名
+
+&lt;pre&gt;`@import &quot;Color/*.png&quot;;
+.icon-qq {
+    @include Color-sprite(qq);
+}
+.icon-renren{
+    @include Color-sprite(renren);
+}
+.icon-163{
+    @include Color-sprite(163);
+}
+`&lt;/pre&gt;
+
+##### 控制间距
+
+创建一个5间距的Sprite
+
+&lt;pre&gt;`//import
+$images-spacing:5px  //images为工程文件名
+@import &quot;../images/*.png&quot;;
+
+//使用Sprite Maps
+$images:sprite-map(&quot;images/*.png&quot;,$spaecing:5px);
+`&lt;/pre&gt;
+
+##### 一些Sass高级用法
+
+&lt;pre&gt;`@import &quot;icon/*.png&quot;;
+$box-padding: 5px;
+$height: icon-sprite-height(some_icon);
+$width: icon-sprite-width(some_icon);
+
+.somediv {
+  height:$height + $box-padding;
+  width:$width + $box-padding;
+}
+</code></pre><p><a href="http://compass-style.org/help/tutorials/spriting/" target="_blank" rel="noopener">参考资料</a></p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2014/08/05/Sass进阶/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2014/08/05/Sass进阶/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2014/08/05/Sass进阶/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2014/08/05/Sass进阶/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2014/08/07/wordpress-2-Typecho搬家/">
+        ← wordpress 2 Typecho搬家
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2014/07/30/css3列表旋转/">
+        css3列表旋转 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2014/08/05/Sass进阶/" data-title="Sass进阶" data-url="http://bluetomlee.github.io/2014/08/05/Sass进阶/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

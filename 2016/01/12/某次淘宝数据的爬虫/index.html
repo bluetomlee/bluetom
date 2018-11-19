@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>某次淘宝数据的爬虫 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-01-12T10:48:44.000Z" itemprop="datePublished">
+          2016-01-12
+      </time>
+    
+</span>
+    <h3 class="post-title">某次淘宝数据的爬虫</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* @Author: bluetom</span></span><br><span class="line"><span class="comment">* @Date:   2015-08-13 17:22:39</span></span><br><span class="line"><span class="comment">* @Last Modified by:   bluetom</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">'request'</span>);</span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> <span class="keyword">async</span> = <span class="built_in">require</span>(<span class="string">'async'</span>);</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> last = <span class="number">217</span>;</span><br><span class="line"><span class="keyword">var</span> url = [<span class="string">'https://www.jiyoujia.com/youjia/linggang/list.json?currentPage='</span>,<span class="string">'&amp;propertylist=&amp;fmt=data&amp;_output_charset=utf-8&amp;_input_charset=utf-8&amp;_ksTS=1439465281674_194'</span>];</span><br><span class="line"><span class="keyword">var</span> header = &#123;</span><br><span class="line">    url: <span class="string">''</span>,</span><br><span class="line">    rejectUnauthorized: <span class="literal">false</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">    <span class="string">'Accept'</span>: <span class="string">'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01'</span>,</span><br><span class="line">    <span class="string">'Accept-Language'</span>: <span class="string">'zh-CN\,zh\;q=0.8'</span>,</span><br><span class="line">    <span class="string">'Cache-Control'</span>: <span class="string">'no-cache'</span>,</span><br><span class="line">    <span class="string">'Connection'</span>: <span class="string">'keep-alive'</span>,</span><br><span class="line">    <span class="string">'Cookie'</span>: <span class="string">'tracknick=king; skt=66218f08050e4286; _tb_token_=5e033987be5e8; cookie2=1c0dde2f983d441f96eef90e61cbeda5; t=1372ce95ab71dae0672b7ccaa6082655; isg=385D95C26E8BC1689FC49DAC02C9D3A6; l=AsbGrk99MsO/Ju414F83FYwPlrJKAwrh'</span>,</span><br><span class="line">    <span class="string">'Host'</span>: <span class="string">'www.jiyoujia.com'</span>,</span><br><span class="line">    <span class="string">'Pragma'</span>: <span class="string">'no-cache'</span>,</span><br><span class="line">    <span class="string">'RA-Sid'</span>: <span class="string">'DCB52669-20150803-124436-62a01a-49556d'</span>,</span><br><span class="line">    <span class="string">'RA-Ver'</span>: <span class="string">'3.0.7'</span>,</span><br><span class="line">    <span class="string">'Referer'</span>: <span class="string">'https://www.jiyoujia.com/youjia/linggang/list.htm?spm=5704.7717861.a2150p5.3.rX91PN'</span>,</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36'</span>,</span><br><span class="line">    <span class="string">'X-Requested-With'</span>: <span class="string">'XMLHttpRequest'</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> total = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; last; i++) &#123;</span><br><span class="line">    total.push(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span>.mapLimit(total, <span class="number">2</span>, <span class="function"><span class="keyword">function</span>(<span class="params">index, callback</span>)</span>&#123;</span><br><span class="line">    url.length &gt; <span class="number">2</span> ? url[<span class="number">1</span>] = index : url.splice(<span class="number">1</span>, <span class="number">0</span>, index);</span><br><span class="line">    header.url = url.join(<span class="string">''</span>);</span><br><span class="line">    request(header,<span class="function"><span class="keyword">function</span>(<span class="params">err,res,body</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(!err &amp;&amp; res.statusCode == <span class="number">200</span>)&#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">'正在下载第'</span>+index+<span class="string">'页'</span>);</span><br><span class="line">      &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">'下载失败!'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).pipe(fs.createWriteStream(<span class="string">'txt/'</span>+index+<span class="string">'.txt'</span>))</span><br><span class="line">    callback()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2016/01/12/某次淘宝数据的爬虫/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2016/01/12/某次淘宝数据的爬虫/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2016/01/12/某次淘宝数据的爬虫/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2016/01/12/某次淘宝数据的爬虫/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2016/01/13/casper爬虫用例/">
+        ← casper爬虫用例
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2016/01/12/node批处理文本/">
+        node批处理文本 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2016/01/12/某次淘宝数据的爬虫/" data-title="某次淘宝数据的爬虫" data-url="http://bluetomlee.github.io/2016/01/12/某次淘宝数据的爬虫/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

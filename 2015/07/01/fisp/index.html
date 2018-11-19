@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>fisp上线整理 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2015-07-01T14:44:00.000Z" itemprop="datePublished">
+          2015-07-01
+      </time>
+    
+</span>
+    <h3 class="post-title">fisp上线整理</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <blockquote>
+<p>好久没发博了。整理下原来关于fisp知识。<br>曾几何时，窃以为fis | fisp是为了前端自动化部署的环境<br>Grunt、Gulp这种用node自己随便配配不是一样的效果，但是但是想错了<br>smarty组合整理后台数据及前端模块片段，fis遵从commonjs以widget方式开发。也是Web Components的思想，do it</p>
+</blockquote>
+<p>##搭建篇</p>
+<p>###环境<br>node.js+php一个不能少</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install -g fisp</span><br><span class="line"></span><br><span class="line">brew install php55 -cgi</span><br></pre></td></tr></table></figure>
+<p>lights为fis包管理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g lights</span><br></pre></td></tr></table></figure>
+<p>初始化及安装demo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fisp server init</span><br><span class="line">lights install pc-demo</span><br></pre></td></tr></table></figure>
+<p>###发布</p>
+<blockquote>
+<p>详解下fisp发布流程。<br>在项目中配置fis-conf.js，这里涉及了打包，命名空间，合并，远程发到测试机等conf。<br>当fisp release时,他会把该项目文件模块编译至<em>.fis-plus-tmp/</em>这个目录<br>本机的环境，模拟项目调试都在此目录作为缓存。在mac中pwd为/Users/bluetom/.fis-plus-tmp,有兴趣的可以在这个目录自己玩玩</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd pc-demo</span><br><span class="line">$ fisp release -r common</span><br><span class="line">$ fisp release -r home</span><br><span class="line">$ fisp server start</span><br></pre></td></tr></table></figure>
+<p>##Smarty模板篇</p>
+<h3 id="html-framework-”frameworkPath”-html-标签"><a href="#html-framework-”frameworkPath”-html-标签" class="headerlink" title="{html framework=”frameworkPath”}{/html} 标签"></a>{html <em>framework=”frameworkPath”</em>}{/html} 标签</h3><p><code>{html}</code> <code>{/html}</code> 标签是 <strong>她</strong> 用来控制模板输出的插件，使用时替换原生 <code>&lt;html&gt;</code> <code>&lt;/html&gt;</code> 标签。<br>参考<a href="#TODO">输出方式(TODO)</a></p>
+<h3 id="head-head-标签"><a href="#head-head-标签" class="headerlink" title="{head}{/head} 标签"></a>{head}{/head} 标签</h3><p><code>{head}</code> <code>{/head}</code> 标签是 <strong>她</strong> 用来控制模板输出的插件，使用时替换原生 <code>&lt;head&gt;</code> <code>&lt;/head&gt;</code> 标签。<br>参考<a href="#TODO">输出方式(TODO)</a></p>
+<h3 id="title-title-标签"><a href="#title-title-标签" class="headerlink" title="{title}{/title} 标签"></a>{title}{/title} 标签</h3><p><code>{title}</code> <code>{/title}</code> 标签是 <strong>她</strong> 用来收集页面标题的插件，使用时替换原生 <code>&lt;title&gt;</code> <code>&lt;/title&gt;</code> 标签。<br>参考<a href="#TODO">输出方式(TODO)</a></p>
+<h3 id="body-body-标签"><a href="#body-body-标签" class="headerlink" title="{body}{/body} 标签"></a>{body}{/body} 标签</h3><p><code>{body}</code> <code>{/body}</code> 标签是 <strong>她</strong> 用来控制模板输出的插件，使用时替换原生 <code>&lt;body&gt;</code> <code>&lt;/body&gt;</code> 标签。<br>参考<a href="#TODO">输出方式(TODO)</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;html her=&quot;common:static/lib.js&quot;&#125;</span><br><span class="line">  &#123;head&#125;</span><br><span class="line">    &#123;title&#125;This is title&#123;/title&#125;</span><br><span class="line">    &#123;require name=&quot;common:reset.css&quot;&#125;</span><br><span class="line">    ...some thing else in head.</span><br><span class="line">  &#123;/head&#125;</span><br><span class="line">  &#123;body&#125;</span><br><span class="line"></span><br><span class="line">    ...some thing outside before pagelet.</span><br><span class="line"></span><br><span class="line">    &#123;require name=&quot;common:page.css&quot;&#125;</span><br><span class="line">    &#123;pagelet id=&quot;mypagelet&quot;&#125;</span><br><span class="line">       &#123;require name=&quot;module:pagelet.css&quot;&#125;</span><br><span class="line">       ...some thing inside pagelet.</span><br><span class="line">    &#123;/pagelet&#125;</span><br><span class="line"></span><br><span class="line">    ...some thing outside after pagelet.</span><br><span class="line"></span><br><span class="line">  &#123;/body&#125;</span><br><span class="line">&#123;/html&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行时输出：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>This is title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 所有pagelet之外依赖的css资源和*&#123;html&#125;*标签指定的框架js，会直接同步输出，其他资源都是由前端loader异步加载 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"*reset.css的真实发布路径*"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"*page.css的真实发布路径*"</span> /&gt;</span></span><br><span class="line">...some thing else in head.</span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">...some thing outside before pagelet.</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"mypagelet"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="comment">&lt;!-- pagelet先只输出占位div，其内容和资源在后面输出 --&gt;</span></span><br><span class="line">...some thing outside after pagelet.</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 所有pagelet之外依赖的css资源和*&#123;html&#125;*标签指定的框架js，会直接同步输出，其他资源都是由前端loader异步加载 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"*lib.js的真实发布路径*"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 所有同步输出的资源，用*BigPipe.loadedResource*注册一下，告诉前端loader它们已经加载了 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">BigPipe.loadedResource([<span class="string">"c8ade30"</span>,<span class="string">"3365e3d"</span>,<span class="string">"46b833c"</span>]);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 下面会依次输出每一个pagelet的内容和资源，包括*&#123;html&#125;*，*&#123;html&#125;*是一个特殊的最顶层的pagelet --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- *&#123;html&#125;*资源输出begin，html包含的dom其实是同步输出到页面的，即上面的 "some thing outside pagelet." --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">BigPipe.hooks[<span class="string">"__cb_0_1"</span>]=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">/*some code...*/</span>&#125;;</span></span><br><span class="line"><span class="undefined">BigPipe.setResourceMap(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="string">"c8ade30"</span>:&#123;</span></span><br><span class="line"><span class="javascript">     <span class="string">"src"</span>:<span class="string">"*lib.js的真实发布路径*"</span>,</span></span><br><span class="line"><span class="javascript">     <span class="string">"type"</span>:<span class="string">"js"</span>,</span></span><br><span class="line"><span class="javascript">     <span class="string">"deps"</span>:[],</span></span><br><span class="line"><span class="javascript">     <span class="string">"mods"</span>:[<span class="string">"common:static/lib.js"</span>]</span></span><br><span class="line"><span class="undefined">   &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="string">"3365e3d"</span>:&#123;</span></span><br><span class="line"><span class="javascript">     <span class="string">"src"</span>:<span class="string">"*reset.css的真实发布路径*"</span>,</span></span><br><span class="line"><span class="javascript">     <span class="string">"type"</span>:<span class="string">"css"</span>,</span></span><br><span class="line"><span class="javascript">     <span class="string">"deps"</span>:[],</span></span><br><span class="line"><span class="javascript">     <span class="string">"mods"</span>:[<span class="string">"common:reset.css"</span>]</span></span><br><span class="line"><span class="undefined">   &#125;,</span></span><br><span class="line"><span class="javascript">   <span class="string">"46b833c"</span>:&#123;...&#125;</span></span><br><span class="line"><span class="undefined">&#125;);</span></span><br><span class="line"><span class="javascript">BigPipe.onPageletArrive(&#123;<span class="string">"id"</span>:<span class="literal">null</span>,<span class="string">"children"</span>:[<span class="string">"mypagelet"</span>],<span class="string">"deps"</span>:&#123;<span class="string">"beforedisplay"</span>:[<span class="string">"3365e3d"</span>,<span class="string">"46b833c"</span>],<span class="string">"load"</span>:[]&#125;,<span class="string">"hooks"</span>:&#123;<span class="string">"load"</span>:[<span class="string">"__cb_0_1"</span>]&#125;&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- *&#123;html&#125;*输出end --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- *&#123;pagelet&#125;*内容和资源输出begin --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">code</span> <span class="attr">id</span>=<span class="string">"__cnt_mypagelet"</span> <span class="attr">style</span>=<span class="string">"display:none"</span>&gt;</span><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">...some thing inside pagelet.</span></span><br><span class="line"><span class="comment">--&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">BigPipe.setResourceMap(&#123;&#125;);</span></span><br><span class="line"><span class="javascript">BigPipe.onPageletArrive(&#123;<span class="string">"id"</span>:<span class="string">"mypagelet"</span>,<span class="string">"css"</span>:[<span class="string">"依赖的 CSS 资源*pagelet.css的id*"</span>],<span class="string">"js"</span>:[<span class="string">"依赖的 JS 资源"</span>],<span class="string">"container_id"</span>:<span class="string">"__cnt_mypagelet"</span>&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- *&#123;pagelet&#125;*内容和资源输出end --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="pagelet-tag-”div”-bigrender-pagelet-标签"><a href="#pagelet-tag-”div”-bigrender-pagelet-标签" class="headerlink" title="{pagelet [tag=”div”] [bigrender]}{/pagelet} 标签"></a>{pagelet <em>[tag=”div”]</em> <em>[bigrender]</em>}{/pagelet} 标签</h3><p><code>{pagelet}</code> <code>{/pagelet}</code> 标签用来标记页面中的独立区块，该区块可以被单独的加载和渲染，并且可以通过编程控制渲染时机。<br>生成的标签由 <em><code>tag</code></em> 参数指定，默认为 <code>&quot;div&quot;</code>。<br>如果设置了bigrender属性，则会采用bigrender方式渲染。<br>参考<a href="#TODO">输出方式(TODO)</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;pagelet&#125;</span><br><span class="line">    &lt;p&gt;我是一个 pagelet&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;我能被单独加载和渲染&lt;/p&gt;</span><br><span class="line">&#123;/pagelet&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码在运行时会生成：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"自动生成的ID"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">code</span> <span class="attr">id</span>=<span class="string">"另一个自动生成的ID"</span> <span class="attr">style</span>=<span class="string">"display:none"</span>&gt;</span><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    &lt;p&gt;我是一个 pagelet&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    &lt;p&gt;我能被单独加载和渲染&lt;/p&gt;</span></span><br><span class="line"><span class="comment">--&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">BigPipe.onPageletArrive(&#123;<span class="string">"id"</span>:<span class="string">"DIV 的 ID"</span>,<span class="string">"css"</span>:[<span class="string">"依赖的 CSS 资源"</span>],<span class="string">"js"</span>:[<span class="string">"依赖的 JS 资源"</span>],<span class="string">"container_id"</span>:<span class="string">"CODE 的 ID"</span>&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>会根据优化策略适时的将 html 片段插入节点中，并且保证 CSS、JS 的加载和执行顺序。</p>
+<h3 id="script-pagelet-on-”load”-var-varName-data-script-标签"><a href="#script-pagelet-on-”load”-var-varName-data-script-标签" class="headerlink" title="{script [pagelet-on=”load”] [var-varName=$data]}{/script} 标签"></a>{script <em>[pagelet-on=”load”] [var-varName=$data]</em>}{/script} 标签</h3><p><code>{script}</code> <code>{/script}</code> 标签用来标注并收集页面中的代码片段。在输出时，<strong>她</strong> 会将收集的代码封装成函数并且自动控制调用时机。<br>参考<a href="#TODO">代码执行时机(TODO)</a></p>
+<p><code>{script}</code> 标签支持 <em><code>pagelet-on</code></em> 属性，用来控制脚本执行的时机。默认为 <code>&quot;load&quot;</code> ，即 pagelet 的HTML加载后执行。其他可选的值和对应的执行时机如下:</p>
+<ul>
+<li>arrive: pagelet 数据块到达时 (暂未实现)</li>
+<li>beforeload: pagelet 开始加载依赖的CSS/JS资源之前 (暂未实现)</li>
+<li>cssresolved: 依赖的css资源加载完成后 (暂未实现)</li>
+<li>beforedisplay: 显示(innerHTML)之前</li>
+<li>display: 显示之后</li>
+<li>jsresolved: 依赖的js资源加载完成后 (暂未实现)</li>
+<li>load: 加载完成</li>
+<li>afterload: 加载完成后 (暂未实现)</li>
+<li>beforeunload: 卸载之前 </li>
+<li>unload: 卸载时</li>
+<li>afterunload: 卸载后 (暂未实现)</li>
+</ul>
+<p>为了方便代码压缩和减少转义引起的BUG，<code>{script}</code> 标签还支持类似 <code>var-varName=$smartyData</code> 参数，<strong>她</strong> 会自动将模板变量通过 <a href="http://php.net/manual/zh/function.json-encode.php" target="_blank" rel="noopener">json_encode</a> 转义并且赋值给 <code>varName</code> 变量，方便直接引用。  (暂未实现)<br> <strong>注意：<code>{script}</code>标签内不能再使用 Smarty 模板变量</strong></p>
+<p>为了方便开发时语法高亮，<strong>她</strong> 在编译阶段引入了对 <code>&lt;script runat=&quot;server&quot;(暂定)&gt;</code> 的预处理。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;$name="我是含有引号( ' )的用户名"&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">runat</span>=<span class="string">"server"</span> <span class="attr">pagelet-on</span>=<span class="string">"beforeload"</span> <span class="attr">var-userName</span>=<span class="string">$name</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> xxx = <span class="built_in">require</span>(xxx);</span></span><br><span class="line"><span class="undefined">    xxx.XXX();</span></span><br><span class="line"><span class="undefined">    alert(userName);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面的写法等同于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;$name=&quot;我是含有引号( &apos; )的用户名&quot;&#125;</span><br><span class="line">&#123;script pagelet-on=&quot;beforeload&quot; var-userName=$name&#125;</span><br><span class="line">    var xxx = require(xxx);</span><br><span class="line">    xxx.XXX();</span><br><span class="line">    alert(userName);</span><br><span class="line">&#123;/script&#125;</span><br></pre></td></tr></table></figure>
+<p>运行时代码会变为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">BigPipe.hooks[<span class="string">"系统管理的ID"</span>] = <span class="function"><span class="keyword">function</span>(<span class="params">require, pagelet</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> userName = <span class="string">"我是含有引号( \' )的用户名"</span>;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> xxx = <span class="built_in">require</span>(xxx);</span></span><br><span class="line"><span class="undefined">    xxx.XXX();</span></span><br><span class="line"><span class="undefined">    alert(userName);</span></span><br><span class="line"><span class="undefined">&#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="require-name-”resourcePath”-标签"><a href="#require-name-”resourcePath”-标签" class="headerlink" title="{require name=”resourcePath”} 标签"></a>{require <em>name=”resourcePath”</em>} 标签</h3><p><code>{require}</code> 标签用来标注一个资源依赖。可以用于 CSS 和 Js 资源， <em><code>resourcePath</code></em> 为资源路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;require name=&quot;common:js/jquery.js&quot;&#125;</span><br><span class="line">&#123;require name=&quot;common:css/color.css&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="define-method-”methodName”-define-标签"><a href="#define-method-”methodName”-define-标签" class="headerlink" title="{define [method=”methodName”]}{/define} 标签"></a>{define <em>[method=”methodName”]</em>}{/define} 标签</h3><p><code>{define}</code> 标签用来定义一个可重用模板片段，该片段可以通过 <code>{widget}</code> 标签调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;*common:widget/title/title.tpl*&#125;</span><br><span class="line"></span><br><span class="line">&#123;define userName=&quot;默认用户名&quot;&#125;</span><br><span class="line">    &lt;!-- 一个可以重用的用户名显示组件 --&gt;</span><br><span class="line">    &lt;dl&gt;</span><br><span class="line">        &lt;dt&gt;姓名&lt;/dt&gt;</span><br><span class="line">        &lt;dd&gt;&#123;$userName|escape&#125;&lt;/dd&gt;</span><br><span class="line">    &lt;/dl&gt;</span><br><span class="line">&#123;/define&#125;</span><br><span class="line"></span><br><span class="line">&#123;*调用方式如下：*&#125;</span><br><span class="line">&#123;widget name=&quot;common:widget/title/title.tpl&quot; userName=&quot;张三&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>为了方便在一个文件中定义逻辑相关的多个片段，<code>{define}</code> 和 <code>{widget}</code> 还支持 <em><code>method</code></em> 参数(默认为 <code>&quot;__main&quot;</code> )：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;*common:widget/title/title.tpl*&#125;</span><br><span class="line"></span><br><span class="line">&#123;define method=&quot;showName&quot; userName=&quot;默认用户名&quot;&#125;</span><br><span class="line">    &lt;!-- 一个可以重用的用户名显示组件 --&gt;</span><br><span class="line">    &lt;dl&gt;</span><br><span class="line">        &lt;dt&gt;姓名&lt;/dt&gt;</span><br><span class="line">        &lt;dd&gt;&#123;$userName|escape&#125;&lt;/dd&gt;</span><br><span class="line">    &lt;/dl&gt;</span><br><span class="line">&#123;/define&#125;</span><br><span class="line"></span><br><span class="line">&#123;*调用方式如下：*&#125;</span><br><span class="line">&#123;widget name=&quot;common:widget/title/title.tpl&quot; method=&quot;showName&quot; userName=&quot;张三&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="widget-name-”resourcePath”-method-”methodName”-标签"><a href="#widget-name-”resourcePath”-method-”methodName”-标签" class="headerlink" title="{widget name=”resourcePath” [method=”methodName”]} 标签"></a>{widget <em>name=”resourcePath” [method=”methodName”]</em>} 标签</h3><p><code>{widget}</code> 标签用来调用用 <code>{define}</code> 定义的可重用的模板片段。<br>参考<a href="#define-methodmethodnamedefine-%E6%A0%87%E7%AD%BE"><code>{define}</code> 标签</a></p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2015/07/01/fisp/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2015/07/01/fisp/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2015/07/01/fisp/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2015/07/01/fisp/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2015/07/01/mac-app/">
+        ← mac应用列表
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2015/06/01/one/">
+        June →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2015/07/01/fisp/" data-title="fisp上线整理" data-url="http://bluetomlee.github.io/2015/07/01/fisp/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

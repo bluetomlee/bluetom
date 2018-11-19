@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>casper爬虫用例 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-01-13T04:23:22.000Z" itemprop="datePublished">
+          2016-01-13
+      </time>
+    
+</span>
+    <h3 class="post-title">casper爬虫用例</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <h3 id="模拟登陆百姓网"><a href="#模拟登陆百姓网" class="headerlink" title="模拟登陆百姓网"></a>模拟登陆百姓网</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> casper = <span class="built_in">require</span>(<span class="string">'casper'</span>).create();</span><br><span class="line"><span class="keyword">var</span> conf = &#123;</span><br><span class="line">    <span class="string">'baixing'</span> : &#123;</span><br><span class="line">        login : <span class="string">'http://www.baixing.com/oz/login'</span>,</span><br><span class="line">        user  : <span class="string">''</span>,</span><br><span class="line">        pwd   : <span class="string">''</span>,</span><br><span class="line">        list  : <span class="string">'http://www.baixing.com/w/posts?src=topmenu'</span>,</span><br><span class="line">        fresh : [</span><br><span class="line">            <span class="string">'http://www.baixing.com/pays/refresh/?adId=258292835'</span>,</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'99cfw'</span> : &#123;</span><br><span class="line">        login : <span class="string">'http://user.99cfw.com/login/'</span>,</span><br><span class="line">        user  : <span class="string">''</span>,</span><br><span class="line">        pwd   : <span class="string">''</span>,</span><br><span class="line">        fresh : [</span><br><span class="line">            <span class="string">'http://user.99cfw.com/refresh.asp?id=zryxyzfurxswu'</span>,</span><br><span class="line">            <span class="string">'http://user.99cfw.com/refresh.asp?id=zrztuRuvrxswu'</span>,</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 99cfw</span></span><br><span class="line">casper.start(conf[<span class="string">'99cfw'</span>].login, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.fill(<span class="string">'form#userlogin'</span>, &#123;</span><br><span class="line">        <span class="string">'loginName'</span> : conf[<span class="string">'99cfw'</span>].user,</span><br><span class="line">        <span class="string">'password'</span>  : <span class="built_in">parseInt</span>(conf[<span class="string">'99cfw'</span>].pwd, <span class="number">16</span>)</span><br><span class="line">    &#125;, <span class="literal">true</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">casper.thenEvaluate(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'button[type="submit"]'</span>).submit();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">casper.wait(<span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">casper.each(conf[<span class="string">'99cfw'</span>].fresh, <span class="function"><span class="keyword">function</span> (<span class="params">self, link</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// var _list = document.querySelectorAll('a[href^=refresh');</span></span><br><span class="line">    self.thenOpen(link, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.echo(link);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// for (var i = 0; i &lt; _list.length; i++) &#123;</span></span><br><span class="line">    <span class="comment">//     _list[i].click();</span></span><br><span class="line">    <span class="comment">// &#125;;</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">casper.wait(<span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">casper.then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.echo(<span class="string">'99cfw Done!'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 百姓</span></span><br><span class="line">casper.thenOpen(conf[<span class="string">'baixing'</span>].login, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.fill(<span class="string">'form#authform'</span>, &#123;</span><br><span class="line">        <span class="string">'identity'</span> : conf[<span class="string">'baixing'</span>].user,</span><br><span class="line">        <span class="string">'password'</span>  : <span class="built_in">parseInt</span>(conf[<span class="string">'baixing'</span>].pwd, <span class="number">16</span>)</span><br><span class="line">    &#125;, <span class="literal">true</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">casper.thenEvaluate(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'#id_submit'</span>).click();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">casper.wait(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">casper.thenOpen(conf[<span class="string">'baixing'</span>].fresh[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">casper.then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.echo(<span class="string">'baixing Done!'</span>)</span><br><span class="line">  <span class="keyword">this</span>.capture(<span class="string">'step2.png'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">casper.run();</span><br></pre></td></tr></table></figure>
+<h3 id="自动化监控"><a href="#自动化监控" class="headerlink" title="自动化监控"></a>自动化监控</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">var casper = require(&apos;casper&apos;).create();</span><br><span class="line">var fs = require(&apos;fs&apos;);</span><br><span class="line">var results = [];</span><br><span class="line"></span><br><span class="line">var conf = &#123;</span><br><span class="line">    pcResult: &apos;http://image.baidu.com/i?tn=baiduimage&amp;ps=1&amp;ct=201326592&amp;lm=-1&amp;cl=2&amp;nc=1&amp;ie=utf-8&amp;word=%E9%B2%9C%E8%8A%B1&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function getTitles() &#123;</span><br><span class="line">    var titles = document.querySelectorAll(&apos;.fc-bt-right&apos;);</span><br><span class="line">    return Array.prototype.map.call(titles, function (e) &#123;</span><br><span class="line">          return e.innerHTML;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">casper.start(conf[&apos;pcResult&apos;]);</span><br><span class="line"></span><br><span class="line">casper.waitFor(function check() &#123;</span><br><span class="line">    return this.evaluate(function() &#123;</span><br><span class="line">        return document.querySelectorAll(&apos;.fc-bt-right&apos;).length &gt; 0;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;, function then() &#123;</span><br><span class="line">    results = this.evaluate(getTitles);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">casper.run(function() &#123;</span><br><span class="line">    this.echo(results.join(&apos;\n&apos;)).exit();</span><br><span class="line">    fs.write(&apos;results.txt&apos;, results.join(&apos;\n&apos;), &apos;w&apos;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2016/01/13/casper爬虫用例/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2016/01/13/casper爬虫用例/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2016/01/13/casper爬虫用例/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2016/01/13/casper爬虫用例/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2016/01/14/hexo升级https/">
+        ← hexo升级https
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2016/01/12/某次淘宝数据的爬虫/">
+        某次淘宝数据的爬虫 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2016/01/13/casper爬虫用例/" data-title="casper爬虫用例" data-url="http://bluetomlee.github.io/2016/01/13/casper爬虫用例/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

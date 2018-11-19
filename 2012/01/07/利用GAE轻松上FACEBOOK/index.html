@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>利用GAE轻松上FACEBOOK~ | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2012-01-07T04:23:42.000Z" itemprop="datePublished">
+          2012-01-07
+      </time>
+    
+</span>
+    <h3 class="post-title">利用GAE轻松上FACEBOOK~</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <p>自从用了goagent，上facebook，twitter，看youtube那真是小菜一碟。而且看<a href="http://www.youtube.com/" target="_blank" rel="noopener">youtube</a>的流畅度和<a href="http://www.youku.com/" target="_blank" rel="noopener">优酷</a>一样,不信？你试试。</p>
+<blockquote>
+<p>教程开始！！！<br>第一步：申请Google App Engine账号（其实就是申请Gmail账号，两者通用）</p>
+</blockquote>
+<p>网址是<a href="http://appengine.google.com/" target="_blank" rel="noopener">http://appengine.google.com</a></p>
+<p>如果已有谷歌账号，那就直接登录吧。</p>
+<blockquote>
+<p><img src="http://photo.staticsdo.com/a1/430/388/226/69589-1230840885-8.png" alt="goagent">第二步： 创建Google App Engine的ID</p>
+</blockquote>
+<p>顺利登录后，点击Creat an Application</p>
+<p><img src="http://photo.staticsdo.com/a1/494/113/394/69577-1230840885-8.png" alt="goagent"></p>
+<p>接着输入你的手机号码，国家选择Other(Not Listed)</p>
+<p><img src="http://photo.staticsdo.com/a1/466/372/76/69578-1230840885-8.png" alt="goagent"></p>
+<p>需要注意的是，手机号码前面要+86 格式如：+86 13888888888。然后等待收取手机短信，收到短信后（一串数字号码）填入表单，点send提交.</p>
+<p>几秒后，谷歌会发来短信（免费的），里面有一串数字，填上即可。</p>
+<p><img src="http://photo.staticsdo.com/a1/110/124/392/73870-1230840885-8.png" alt="goagent教程"></p>
+<p>点击send后，Google App Engine账号即被激活，然后就可以创建新的应用程序了。页面会自动转入“My Applications”页面，点击“Create an Application”新建应用，如下图：</p>
+<p><a href="http://photo.staticsdo.com/a1/46/345/509/73804-1230840885-8.jpg" target="_blank" rel="noopener"><img src="http://photo.staticsdo.com/a1/46/345/509/73804-1230840885-8.jpg" alt="goagent教程"></a></p>
+<p>一个Gmail账户最多可以创建十个Google App Engine应用。每个应用每天有1GB免费流量，不够的话，多申请几个就可以了(无需再进行手机验证)。下面填写新应用的必要信息，如下图：</p>
+<p><a href="http://photo.staticsdo.com/a1/18/143/330/73838-1230840885-8.jpg" target="_blank" rel="noopener"><img src="http://photo.staticsdo.com/a1/18/143/330/73838-1230840885-8.jpg" alt="goagent教程"></a></p>
+<p>在 上图中第一处添加一个应用名称，如123abc验证一下是否可用，如果通过那么123abc就是你的Appid（一定要记住这个id！），而 123abc.appspoft.com就是你的应用服务器地址了。第二个空格就是给你的应用取个名字，可以随便填，最后点击提交按钮，如果能看到下图这 个页面，就说明你成功创建了一个新的应用</p>
+<p><img src="http://photo.staticsdo.com/a1/210/176/111/73803-1230840885-8.jpg" alt="goagent教程"></p>
+<blockquote>
+<p>第三步： 下载goagent客户端</p>
+</blockquote>
+<p>下载地址：<a href="http://code.google.com/p/goagent/" target="_blank" rel="noopener">http://code.google.com/p/goagent/</a></p>
+<p>解压后会看到2个文件夹</p>
+<p>1. 双击server\uploader.bat(linux/mac用户请运行uploader.py),先输入你的appid然后会提示你输入Gmail 邮箱和密码，（输入密码时将看不见任何符号，但你不用管他，输完密码后按回车就可以了）接着程序会自动上传至谷歌服务器,看到方框内的文字尤其是最后一行 就表示上传成功了。</p>
+<p><img src="http://photo.staticsdo.com/a1/210/202/120/73883-1230840885-8.png" alt="goagent教程"></p>
+<p>2.用记事本打开server文件夹下的app.yaml，在第一行的application：处输入你的id</p>
+<p><img src="http://photo.staticsdo.com/a1/146/421/36/69584-1230840885-8.png" alt="null"></p>
+<p>3.用记事本打开load文件夹下的proxy.ini 在appid=处填上你的id</p>
+<p><img src="http://photo.staticsdo.com/a1/210/60/157/69585-1230840885-8.png" alt="null"></p>
+<p>4.至此，所有设置都已完毕。以后每次要翻.墙前先打开load文件夹下的goagent.exe，接着在代理设置中输入ip地址127.0.0.1和端口8087，下图以谷歌的chrome为例，教你如何设置代理（点击图片可放大）</p>
+<p><a href="http://photo.staticsdo.com/a1/46/110/475/73989-1230840885-8.jpg" target="_blank" rel="noopener"><img src="http://photo.staticsdo.com/a1/46/110/475/73989-1230840885-8.jpg" alt=""></a></p>
+<p>5.有些朋友说goagent看不了youtube，其实我觉得应该与浏览器兼容性有关，还是建议大家用chrome浏览器进行观看哦。下图为证。（youtube正在正常播放哦，看进度条就知道了。）另外我的twitter地址是<a href="http://twitter.com/aexwx" target="_blank" rel="noopener">http://twitter.com/MsnSun</a>嘿嘿</p>
+<p></p><p><a href="http://photo.staticsdo.com/a1/18/154/238/73988-1230840885-8.jpg" target="_blank" rel="noopener"><img src="http://photo.staticsdo.com/a1/18/154/238/73988-1230840885-8.jpg" alt=""></a></p>
+<blockquote>
+<p>总结：谷歌果然是老大，什么卫星，什么地图，什么翻墙，太造福我们了！本猫用它看<a href="http://www.youtube.com/" target="_blank" rel="noopener">youtube</a>，流畅的没话说。</p>
+<p>还有谁不懂，请留言。</p>
+</blockquote>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2012/01/07/利用GAE轻松上FACEBOOK/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2012/01/07/利用GAE轻松上FACEBOOK/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2012/01/07/利用GAE轻松上FACEBOOK/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2012/01/07/利用GAE轻松上FACEBOOK/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2012/01/11/社会各行业内幕/">
+        ← 社会各行业内幕
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2012/01/05/FACS汉化教程/">
+        FACS汉化教程 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2012/01/07/利用GAE轻松上FACEBOOK/" data-title="利用GAE轻松上FACEBOOK~" data-url="http://bluetomlee.github.io/2012/01/07/利用GAE轻松上FACEBOOK/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

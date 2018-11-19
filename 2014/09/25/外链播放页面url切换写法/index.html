@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>外链播放页面url切换写法 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2014-09-25T04:44:20.000Z" itemprop="datePublished">
+          2014-09-25
+      </time>
+    
+</span>
+    <h3 class="post-title">外链播放页面url切换写法</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <h2 id="from-fsk"><a href="#from-fsk" class="headerlink" title="from @fsk"></a>from @fsk</h2><h1 id="外链播放页面url切换写法"><a href="#外链播放页面url切换写法" class="headerlink" title="外链播放页面url切换写法"></a>外链播放页面url切换写法</h1><pre><code>最近要写一个外链播放器，外链播放的url是：
+`&lt;/pre&gt;
+
+1.[http://igame.163.com/#/outchain/0/17780022](http://igame.163.com/#/outchain/0/17780022).
+
+2.[http://igame.163.com/#/outchain/0/1778002/m/use](http://igame.163.com/#/outchain/0/1778002/m/use)
+
+3.[http://igame.163.com/#/outchain/0/1778002/m/how](http://igame.163.com/#/outchain/0/1778002/m/how)
+
+outchain后面的两个域对应外链的类型和id（专辑，单曲，歌单等），默认进去的是第2个url.在页面内需要实现一个tab切换的功能，对应的url条目便是2和3.
+
+### java的配置配置代码
+
+&lt;pre&gt;`@Controller(&quot;webOutChainController&quot;)
+public class OutChainController extends BaseController{
+    @RequestMapping(value = { &quot;/outchain/{type}/{id}&quot;}, method = { RequestMethod.GET })
+    public ModelAndView myMusic(HttpServletRequest request,
+            @PathVariable(value = &quot;type&quot;) String skin,
+            @PathVariable(value = &quot;id&quot;) String id,
+            ModelMap modelMap) {
+        ...
+        return new ModelAndView(getTemplate(&quot;web2/outchain/index&quot;), modelMap);
+    }
+}
+`&lt;/pre&gt;
+
+/outchain/{type}/{id}指明了外链功能对应的url，实际页面对应的ftl路径在&quot;web2/outchain/index&quot;中进行指定。
+
+#### index.ftl中的配置代码：
+</code></pre><ul>
+<li><a href="outchain/${data.skin}/${data.id}#use"><span>使用插件</span></a></li>
+<li><p><a href="outchain/${data.skin}/${data.id}#how"><span>插件使用流程</span></a></p>
+<p>这里定义了两个tab切换标签，一个是“使用插件”，另外一个是“插件使用流程”。注意其中的li标签和a标签，里面的 class=”z-slt”是当前选中标签后的附加样式，data-type = “use”负责和对应的url做匹配，后面的match方法要用到这个属性。a  href=”outchain/${data.skin}/${data.id}#use”对应的是第一步跳转的url。</p>
+<p>下面是对应的js代码：</p>
+<p><pre>`this.<strong>tv = _t.<em>$$TabView.</em>$allocate({<br>dataset:’type’,<br>selected:’z-slt’,<br>list:this.</strong>nuseLis.getElementsByTagName(‘li’)<br>});</pre></p>
+<p>_v.<em>$addEvent(location,’urlchange’,this.__onUrlChange.</em>$bind(this));<br>location.active();</p>
+<p>_pro.__onUrlChange = function(_event) {</p>
+<pre><code>var _path = _event.path.replace(&quot;/&quot;,&quot;&quot;) || &apos;use&apos;;
+this.__tv._$match(_path);
+switch (_path) {
+case &apos;use&apos;:
+    _e._$addClassName(this.__showDiv[1],&quot;hide&quot;);
+    _e._$delClassName(this.__showDiv[0],&quot;hide&quot;);
+break;
+case &apos;how&apos;:
+_e._$addClassName(this.__showDiv[0],&quot;hide&quot;);
+_e._$delClassName(this.__showDiv[1],&quot;hide&quot;);
+break;
+}
+</code></pre><p>};</p>
+</li>
+</ul>
+<p>实际上，tabchange触发的事件是通过bom中的location进行触发控制的。nej里面的TabView控件只是负责显示内容的切换，this.__tv._$match(_path)也是负责拿当前的url和当前选中的tab项中的制定属性(本例中是dat-type)进行匹配，完成页面的切换逻辑。</p>
+<p>这样做的一个好处就是，原来的url切换又主动的click形式变成了被动的访问形式，就是说，直接在url框里面敲<a href="http://igame.163.com/#/outchain/0/1778002/m/how" target="_blank" rel="noopener">http://igame.163.com/#/outchain/0/1778002/m/how</a>便可以访问到对应的tab节点，无需到特定的页面进行点击。</p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2014/09/25/外链播放页面url切换写法/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2014/09/25/外链播放页面url切换写法/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2014/09/25/外链播放页面url切换写法/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2014/09/25/外链播放页面url切换写法/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2014/10/11/CSS优先级/">
+        ← CSS优先级
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2014/09/19/FreeMarker笔记/">
+        FreeMarker笔记 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2014/09/25/外链播放页面url切换写法/" data-title="外链播放页面url切换写法" data-url="http://bluetomlee.github.io/2014/09/25/外链播放页面url切换写法/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

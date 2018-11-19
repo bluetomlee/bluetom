@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>封装自己常用js库 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2014-09-15T03:37:00.000Z" itemprop="datePublished">
+          2014-09-15
+      </time>
+    
+</span>
+    <h3 class="post-title">封装自己常用js库</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <pre><code>/**
+ * -----------------------
+ * Provide Basic Tool
+ * @author hzliyi
+ * ----------------------
+ */
+
+            /**
+             * [命名空间]
+             */
+            window.EZ = window.$ = {};
+
+            /**
+             * [选择器]
+             */
+            EZ.elem = function(selector){
+                var element=[];
+                switch(selector.charAt(0)){
+                    case &apos;#&apos;:
+                        element[0] = document.getElementById(selector.substring(1));
+                        return element[0];
+                    break;
+                    case &apos;.&apos;:
+                        var classElem = selector.substring(1);
+                        if(document.getElementsByClassName){
+                            return document.getElementsByClassName(classElem);
+                        } else{
+                            var allClass = document.getElementsByTagName(&quot;*&quot;);
+                            for (var i = 0; i &amp;lt; allClass.length; i++) {
+                                if(allClass[i].nodeType == 1 &amp;amp;&amp;amp; allClass[i].getAttribute(&apos;class&apos;) == classElem){
+                                    element.push(allClass[i]);
+                                    }
+                                };
+                        }
+                    break;
+                    default:
+                        var elements = document.getElementsByTagName(selector);
+                        for (var i = 0; i &amp;lt; elements.length; i++) {
+                            element[i] = elements[i];
+                        };
+                    break;
+                }
+                return element;
+
+            }
+            /**
+             * [html方法]
+             * @param  {[type]} obj
+             * @param  {[type]} v
+             * @return {[type]}
+             */
+            EZ.html = function(obj,v){
+                if(!v){
+                    return obj.innerHTML;
+                }else{
+                    obj.innerHTML = v;
+                    return obj;
+                }
+            }
+            /**
+             * [text方法]
+             * @param  {[type]} obj 
+             * @param  {[type]} v   
+             * @return {[type]}     
+             */
+            EZ.text = function(obj,v){
+                if(!v){
+                    return obj.innerText;
+                }
+                else{
+                    for (var i = 0; i &amp;lt; obj.length; i++) {
+                        return obj[i].innerText = v;
+                    }
+                }
+                return obj;
+            }
+            /**
+             * [createHtml]
+             * @param  {[type]} obj
+             * @param  {[type]} content
+             * @param  {[type]} style
+             * @return {[type]}
+             */
+            EZ.createHtml = function(ele,classname){
+                var elm = document.createElement(ele);
+                    elm.className = classname;
+                return elm;
+            }
+            EZ.timeformat = function(date){
+                var year = date.getFullYear();       //年
+                var month = date.getMonth() + 1;     //月
+                var day = date.getDate() + 1;            //日
+                var hh = date.getHours();            //时
+                var mm = date.getMinutes();          //分
+                var clock = year + &quot;-&quot;;
+                if(month &amp;lt; 10)
+                    clock += &quot;0&quot;;
+                clock += month + &quot;-&quot;;
+                if(day &amp;lt; 10)
+                    clock += &quot;0&quot;;
+                clock += day + &quot; &quot;;
+                if(hh &amp;lt; 10)
+                    clock += &quot;0&quot;;
+                clock += hh + &quot;:&quot;;
+                if (mm &amp;lt; 10) clock += &apos;0&apos;; 
+                clock += mm; 
+                return(clock); 
+            }
+            EZ.timezero = function(date){
+                return new Date(parseInt(date) * 1000).toLocaleString().replace(/年|月/g, &quot;-&quot;).replace(/日/g, &quot; &quot;);
+            }
+            /**
+             * [隐藏元素]
+             * @param  {[type]} obj
+             * @return {[type]}
+             */
+            EZ.hide = function(obj){
+                obj.style.display = &quot;none&quot;;
+            }
+            /**
+             * [展示元素]
+             * @param  {[type]} obj
+             * @return {[type]}
+             */
+            EZ.show = function(obj){
+                obj.style.display = &quot;block&quot;;
+            }
+            /**
+             * [获取事件]
+             * @param  {[type]} e
+             * @return {[type]}
+             */
+            EZ.target = function(e){
+                var _e = e || window.event;
+                return _e.target || _e.srcElement;
+            }
+            /**
+             * [addEvent 事件处理]
+             */
+            EZ.bind = function(elemment,type,fn){
+                if(elemment.addEventListener)
+                    elemment.addEventListener(type,fn,false);
+                else
+                    elemment.attachEvent(&apos;on&apos;+type,fn);
+            }
+            /**
+             * [Ajax]
+             * @param {[string]}   url
+             * @param {Function} callback
+             */
+            EZ.Ajax = function(url,callback){
+                var createXHR = function(){
+                    if(window.XMLHttpRequest){
+                        return new XMLHttpRequest();
+                    } else {
+                        return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;)
+                    }
+                }
+
+                var xhr = createXHR();
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState == 4){
+                        if((xhr.status &amp;gt;= 200 &amp;amp;&amp;amp; xhr.status &amp;lt; 300 )|| xhr.status == 304) {
+                                if(window.JSON &amp;amp;&amp;amp; JSON.parse) {
+                                    callback.call(null,JSON.parse(xhr.responseText));
+                                } else {
+                                    callback.call(null,eval(&apos;(&apos; + xhr.responseText +&apos;)&apos;)); 
+                                }
+                        }
+                    }
+                }
+                xhr.open(&apos;GET&apos;,url,true);
+                xhr.send(null);
+            }
+</code></pre>
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2014/09/15/封装自己常用js库/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2014/09/15/封装自己常用js库/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2014/09/15/封装自己常用js库/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2014/09/15/封装自己常用js库/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2014/09/19/FreeMarker笔记/">
+        ← FreeMarker笔记
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2014/08/09/评新疆小伙携万斤切糕入滇帮助救灾/">
+        评新疆小伙携万斤切糕入滇帮助救灾 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2014/09/15/封装自己常用js库/" data-title="封装自己常用js库" data-url="http://bluetomlee.github.io/2014/09/15/封装自己常用js库/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

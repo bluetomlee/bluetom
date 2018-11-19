@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>php转xls | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2014-12-20T16:56:37.000Z" itemprop="datePublished">
+          2014-12-21
+      </time>
+    
+</span>
+    <h3 class="post-title">php转xls</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <p>毕业设计做到php导出xls</p>
+<p>选课课表阶段时候，网上资料各种坑</p>
+<p>自己改下</p>
+<p>贴上代码</p>
+<pre><code>&lt;?php
+
+// Datebase Config
+
+$server=&quot;localhost&quot;;
+$database=&quot;xuanke&quot;;
+$databaseuser=&quot;root&quot;;
+$databasepassword=&quot;&quot;;
+$table=&quot;tb_course&quot;;
+
+$e = new Excel();   //实例化
+$savename = date(&quot;YmjHis&quot;).&quot;.xls&quot;; //导出excel文件名
+$e-&gt;generar($server,$database,$databaseuser,$databasepassword,$table,$savename);
+
+class Conector {
+        function abrirbase($server,$database,$dbuser,$pass) {
+            $link=mysql_connect($server,$dbuser,$pass);
+            if (!$link)
+                die(&quot;
+faild&quot;);
+                mysql_set_charset(&quot;utf8&quot;,$link);
+                mysql_select_db($database,$link)
+            or die (&quot;
+$database:&quot;.mysql_error());
+            return $link;
+        }
+}
+
+class Excel {
+
+    private $conector;
+
+    function generar($server,$database,$dbuser,$pass,$table,$nombreArchivo) {
+        $c=new Conector();
+        $c-&gt;abrirbase($server,$database,$dbuser,$pass);
+
+        $querytxt=&quot;SELECT * FROM &quot;.$table.&quot;;&quot;;
+        $result=mysql_query($querytxt);
+
+        if (mysql_error()) {
+            die(&quot;
+&quot;.mysql_error());
+        }
+
+        if (mysql_num_rows($result)==0) {
+            die(&quot;
+没有此表&quot;);
+        }
+
+    // Functions for export to excel.
+        function xlsBOF() {
+        echo pack(&quot;ssssss&quot;, 0x809, 0x8, 0x0, 0x10, 0x0, 0x0);
+        return;
+        }
+        function xlsEOF() {
+            echo pack(&quot;ss&quot;, 0x0A, 0x00);
+            return;
+        }
+    function xlsWriteNumber($Row, $Col, $Value) {
+        echo pack(&quot;sssss&quot;, 0x203, 14, $Row, $Col, 0x0);
+        echo pack(&quot;d&quot;, $Value);
+    return;
+}
+    function xlsWriteLabel($Row, $Col, $Value ) {
+        $Value = iconv(&quot;UTF-8&quot;, &quot;gb2312&quot;, $Value);  //强制转换GBK
+        $L = strlen($Value);
+        echo pack(&quot;ssssss&quot;, 0x204, 8 + $L, $Row, $Col, 0x0, $L);
+        echo $Value;
+        return;
+    }
+
+header(&quot;Pragma: public&quot;);
+header(&quot;Expires: 0&quot;);
+header(&quot;Cache-Control: must-revalidate, post-check=0, pre-check=0&quot;);
+header(&quot;Content-Type: application/force-download&quot;);
+header(&quot;Content-Type: application/octet-stream&quot;);
+header(&quot;Content-Type: application/download&quot;);;
+header(&quot;Content-Disposition: attachment;filename=&quot;.$nombreArchivo);
+header(&quot;Content-Transfer-Encoding: binary &quot;);
+
+xlsBOF();
+
+$i = 0;
+while ($i &lt; mysql_num_fields($result)) {
+    $meta = mysql_fetch_field($result, $i);
+    if (!$meta) {
+        echo &quot;nopes\n&quot;;
+    }
+    xlsWriteLabel(0,$i,$meta-&gt;name);
+    $fieldnames[$i]=$meta-&gt;name;
+    $fieldtype[$i]=$meta-&gt;numeric;
+    $i++;
+}
+
+$xlsRow = 1;
+$j=0;
+
+while($row=mysql_fetch_array($result)){
+    for ($j=0;$j&lt;$i;$j++) {
+        if ($fieldtype[$j]==0) {
+            xlsWriteLabel($xlsRow,$j,$row[$fieldnames[$j]]);
+        }
+        else {
+            xlsWriteNumber($xlsRow,$j,$row[$fieldnames[$j]]);
+        }
+    }
+
+$xlsRow++;
+}
+xlsEOF();
+}
+}
+?&gt;
+
+?&amp;gt;
+</code></pre>
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2014/12/21/php转xls/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2014/12/21/php转xls/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2014/12/21/php转xls/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2014/12/21/php转xls/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2015/01/01/tx/">
+        ← 腾讯面试整理
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2014/12/02/mac下手工配置nginx、php-fpm/">
+        mac下手工配置nginx、php-fpm →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2014/12/21/php转xls/" data-title="php转xls" data-url="http://bluetomlee.github.io/2014/12/21/php转xls/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

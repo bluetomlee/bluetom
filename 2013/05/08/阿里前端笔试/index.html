@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>阿里前端笔试 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2013-05-08T13:36:59.000Z" itemprop="datePublished">
+          2013-05-08
+      </time>
+    
+</span>
+    <h3 class="post-title">阿里前端笔试</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <p>昨日阿里前端笔试题</p>
+<p>其实都不难，可惜楼主依旧做错。</p>
+<p>1、写出如下符合语义的(x)html</p>
+<p>类似如下，数据与样子与原题不太一样，但已体现考点。</p>
+<p><img src="http://bbs.redhome.cc/data/attachment/forum/201305/06/125519hwa6zaf3gs2x2uqf.png.thumb.jpg" alt=""></p>
+<p>这一题我认为考点就三点：tbody ，th，rowspan属性，可惜表格用太少，不知道rowspan属性。</p>
+<p>2、CSS的简写</p>
+<p>这就不用说了，只是其中有一句是这样的</p>
+<p>A {</p>
+<p>font-size:14px;</p>
+<p>font-weight:bold;</p>
+<p>line-height:150%;</p>
+<p>color:#000000;</p>
+<p>}</p>
+<p>我觉得前三个属性不应该合起来到font中，于是只简写了最后的color。</p>
+<p>3、写出如下登录的html和css。其实就是taobao的登录框</p>
+<p>类似于这样<img src="http://bbs.redhome.cc/data/attachment/forum/201305/06/125901skn9gakkqpl0ptqn.png.thumb.jpg" alt="QQ截图20130506130030.png"></p>
+<p>这一题不知道想考我们什么，题目最后有个小括号(边框为圆角并半透明)，但我觉得这个考点似乎不太对，难道还要做兼容？</p>
+<p>最后只是随便写了一写</p>
+<p>4、用js取出所有 .test 的节点</p>
+<p>有 document.querySelectorAll 的就直接取，</p>
+<p>没有的，要注意在判断是否存在 .test 时要将节点的className转成小写并将换行符，制表符替换成空格，再用indexOf判断。</p>
+<p>因为indexOf对大小写敏感。</p>
+<p>加红字的虽然想到了，我却没有做，现在想想，当时是不是脑残了？</p>
+<p>5、数组去重。比如[1,2,2,3,4,1,2,0,4,5,6,4,9,6]，只将1，2，3，4，0，5，6，9取出</p>
+<p>我的答案：</p>
+<p>JavaScript代码，请使用工具条复制代码</p>
+<pre lang="LANGUAGE">
+var arr = [1,2,2,3,4,1,2,0,4,5,6,4,9,6];
+var obj = {};
+for (var i=0,l=arr.length;i
+if (!obj[arr[i]]){
+obj[arr[i]] = true;
+}
+}
+</pre>
+
+<p>最后在对象obj中的就是答案。</p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2013/05/08/阿里前端笔试/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2013/05/08/阿里前端笔试/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2013/05/08/阿里前端笔试/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2013/05/08/阿里前端笔试/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2013/05/18/The-Poisoning-case/">
+        ← The Poisoning case
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2013/05/07/解决Xampp登陆dedecms织梦后台空白/">
+        解决Xampp登陆dedecms织梦后台空白 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2013/05/08/阿里前端笔试/" data-title="阿里前端笔试" data-url="http://bluetomlee.github.io/2013/05/08/阿里前端笔试/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

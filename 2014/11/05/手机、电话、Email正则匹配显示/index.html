@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>手机、电话、Email正则匹配显示 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2014-11-05T06:29:00.000Z" itemprop="datePublished">
+          2014-11-05
+      </time>
+    
+</span>
+    <h3 class="post-title">手机、电话、Email正则匹配显示</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <p>项目需求,发现之前17X段手机,老正则不在支持了</p>
+<p>所以自己重新写了手机校验的组件,并支持显示运营商号段</p>
+<p>首先到<a href="http://zh.wikipedia.org/zh/%E4%B8%AD%E5%9B%BD%E5%86%85%E5%9C%B0%E7%A7%BB%E5%8A%A8%E7%BB%88%E7%AB%A" target="_blank" rel="noopener">wiki把内地手机端</a> 理一遍</p>
+<p>分别移动、联通、电信。三种情况分别讨论，整理如下</p>
+<p>移动：</p>
+<p>134-139 |  147 |  150-152  | 157-159 |  1[7|8]8  | 182-184</p>
+<p>联通：</p>
+<p>130-132 | 1[4|5|8]5 | 1[5|7|8]6</p>
+<p>电信：</p>
+<p>/^1[3|5]3|177|18[0|1|9]/.test(num)</p>
+<p>然后用test校验，封装起来~代码如下</p>
+<pre><code>function cellPhone(num) {
+            var results,operator;
+            if(/^1[3|4|5|7|8]\d{9}$/.test(num)){
+                if(/^13[4-9]|147|15[0-2]|15[7-9]|1[7|8]8|18[2-4|7]|1705/.test(num))
+                    operator = &quot;中国移动&quot;;
+                if(/^13[0-2]|1[4|5|8]5|1[5|7|8]6|1709/.test(num))
+                    operator = &quot;中国联通&quot;;
+                if(/^1[3|5]3|177|18[0|1|9]|1700/.test(num))
+                    operator = &quot;中国电信&quot;;
+                var results = {&quot;result&quot;:&quot;1&quot;,&quot;operator&quot;:operator}
+            }else{
+                var results = {&quot;result&quot;:&quot;0&quot;,&quot;operator&quot;:&quot;&quot;}
+            }
+             return results;
+}
+`&lt;/pre&gt;
+
+电话就更简单了，两种情况,有区号没区号即可
+
+&lt;pre&gt;`function phone(num){
+            if(/^(0\d{2,3})?\-[0-9]\d{6,8}$/.test(num)){
+                results = 1;
+            }else{
+                results = 0;
+            }
+            return results;             
+}
+`&lt;/pre&gt;
+
+Email需求则是
+
+数字英文混合 + 三种特殊符号(- _ .) + 数字英文混合 @英文混合 . 英文
+
+Email：
+
+&lt;pre&gt;`function emailCheck(email){
+            var results;
+            if(/^[A-Za-zd0-9]+([-_.][A-Za-zd0-9]+)*@([A-Za-zd0-9]+[-.])+[A-Za-zd]{2,5}$/.test(email)){
+               results = 1;
+            }else{
+                results = 0;
+            }
+            return results;
+ }
+</code></pre>
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2014/11/05/手机、电话、Email正则匹配显示/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2014/11/05/手机、电话、Email正则匹配显示/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2014/11/05/手机、电话、Email正则匹配显示/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2014/11/05/手机、电话、Email正则匹配显示/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2014/11/07/html-tag-filter/">
+        ← html-tag-filter
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2014/11/05/Backbone笔记/">
+        Backbone笔记 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2014/11/05/手机、电话、Email正则匹配显示/" data-title="手机、电话、Email正则匹配显示" data-url="http://bluetomlee.github.io/2014/11/05/手机、电话、Email正则匹配显示/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

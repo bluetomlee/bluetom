@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>译React Mixins | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2015-06-01T14:44:00.000Z" itemprop="datePublished">
+          2015-06-01
+      </time>
+    
+</span>
+    <h3 class="post-title">译React Mixins</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <p>#译React Mixins</p>
+<blockquote>
+<p>翻译《React Mixins By Example》<a href="http://simblestudios.com/blog/development/react-mixins-by-example.html" target="_blank" rel="noopener">原文</a></p>
+</blockquote>
+<p>##做一个简单的Mixin</p>
+<p>来开始创建一个app，因为一些原因我们总要设置默认的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">宁愿每次写一样的```getDefaultProps```方法，其实我们可以创建一个像这样的mixin</span><br></pre></td></tr></table></figure></p>
+<p>var DefaultNameMixin = {<br>    getDefaultProps: function () {<br>        return {name: “Skippy”};<br>    }<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这没什么可说的，只是个简单的对象</span><br><span class="line"></span><br><span class="line">##增加到React组件中</span><br><span class="line">对于我们使用mixin，我们只要确定组件有``mixins```属性并且包含我们的mixin数组的值:</span><br></pre></td></tr></table></figure></p>
+<p>var ComponentOne = React.createClass({<br>    mixins: [DefaultNameMixin],<br>    render: function() {<br>        return </p><h2>Hello {this.props.name}</h2>;<br>    }<br>});<p></p>
+<p>React.renderComponent(<componentone>, document.body);</componentone></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">此处有个[JSFiddle例子](http://jsfiddle.net/veddermatic/qzh0ug5y/1/)。简单的mixin行为</span><br><span class="line"></span><br><span class="line">##多次使用</span><br><span class="line"></span><br><span class="line">正如你想象那样。我们可以include我们的mixin在任何组件中:</span><br></pre></td></tr></table></figure>
+<p>var ComponentTwo = React.createClass({<br>    mixins: [DefaultNameMixin],<br>    render: function () {<br>        return (<br>            <div><br>                <h4>{this.props.name}</h4><br>                <p>Favorite food: {this.props.food}</p><br>            </div><br>        );<br>    }<br>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[JSFiddle example](http://jsfiddle.net/veddermatic/qzh0ug5y/2/) 我们用过的愚蠢组件~</span><br><span class="line"></span><br><span class="line">##生命周期及方法</span><br><span class="line">如果你使用mixin，则包含了[React生命周期方法](http://reactjs.cn/react/docs/component-specs.html)，别着急：你不需要“使用”，你仍然可以使用这些生命周期方法在你的组件中，而且也可以被调用到：</span><br></pre></td></tr></table></figure></p>
+<p>var DefaultNameMixin = {<br>    getDefaultProps: function () {<br>        return {name: “Skippy”};<br>    }<br>};</p>
+<p>var ComponentTwo = React.createClass({<br>    mixins: [DefaultNameMixin],<br>    getDefaultProps: function () {<br>        return {food: “Pancakes”};<br>    },<br>    render: function () {<br>        return (<br>            <div><br>                <h4>{this.props.name}</h4><br>                <p>Favorite food: {this.props.food}</p><br>            </div><br>        );<br>    }<br>});</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">此处应有例子[JSFiddle example](http://jsfiddle.net/veddermatic/qzh0ug5y/3/)</span><br><span class="line"></span><br><span class="line">两个``getDefalutProps``实例都将被调用，然后```default name```最终含有name属性的Skippy和food属性的favorite，任何[React生命周期](http://reactjs.cn/react/docs/component-specs.html)或者组件特征属性，复制在mixin中没有任何问题。  </span><br><span class="line">除了以下情况：  </span><br><span class="line">1. ``render``：含有超过1个以上的render方法将没有任何效果。React将会在你有两个render方法时提示如下：</span><br></pre></td></tr></table></figure>
+<p>Uncaught Error: Invariant Violation: ReactCompositeComponentInterface:<br>You are attempting to define <code>render</code> on your component more than once.<br>This conflict may be due to a mixin.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2.```displayName```:设置多次，这个将不会报错经过mixin方法，但是会覆盖掉，所以显示最终的值&quot;wins&quot;.</span><br><span class="line"></span><br><span class="line">这里值得指出的是```mixins```你可以定义多次，并且还可以引用其他mixins方法</span><br></pre></td></tr></table></figure></p>
+<p>var UselessMixin = {<br>    componentDidMount: function () {<br>      console.log(“asdas”);<br>    }<br>};</p>
+<p>var LolMixin = {<br>   mixins: [UselessMixin]<br>};</p>
+<p>var PantsOpinion = React.createClass({<br>   mixins: [LolMixin],<br>   render: function () {<br>       return (</p><p>I dislike pants</p>);<br>   }<br>});<p></p>
+<p>React.renderComponent(<pantsopinion>, document.body);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[JSFiddle example](http://jsfiddle.net/qzh0ug5y/17/)</span><br><span class="line"></span><br><span class="line">当组件装载好，我们可以欢快的看到控制台log打印出&quot;asdas&quot;.</span><br><span class="line"></span><br><span class="line">3.多种Mixins</span><br><span class="line">事实上我们```mixins```是一个数组，我们可以包含更多东西</span><br><span class="line">再看下:</span><br></pre></td></tr></table></figure></pantsopinion></p>
+<p>var DefaultNameMixin = {<br>    getDefaultProps: function () {<br>        return {name: “Lizie”};<br>    }<br>};</p>
+<p>var DefaultFoodMixin = {<br>    getDefaultProps: function () {<br>        return {food: “Pancakes”};<br>    }<br>};</p>
+<p>var ComponentTwo = React.createClass({<br>    mixins: [DefaultNameMixin, DefaultFoodMixin],<br>    render: function () {<br>        return (<br>            <div><br>                <h4>{this.props.name}</h4><br>                <p>Favorite food: {this.props.food}</p><br>            </div><br>        );<br>    }<br>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[JSFiddle example](http://jsfiddle.net/veddermatic/92nwqss2/1/) 多种mixins</span><br><span class="line"></span><br><span class="line">##Hi Man</span><br><span class="line">当你用mixins方式时头疼的时候，我这儿有些小笔记。  </span><br><span class="line">幸运的是，这个列表似乎挺少的、这儿有我的一些经验之谈</span><br><span class="line"></span><br><span class="line">###Tips:设置相同的属性在Props或者State</span><br><span class="line">当需要调用多个```getDefalutProps```时(```getIntialState等同```)  </span><br><span class="line">并且设置了相同的属性或者状态时将会遇到一些麻烦，</span><br></pre></td></tr></table></figure></p>
+<p>// set the name prop here…<br>var DefaultNameMixin = {<br>    getDefaultProps: function () {<br>        return {name: “Skippy”};<br>    }<br>};</p>
+<p>var ComponentTwo = React.createClass({<br>    mixins: [DefaultNameMixin],</p>
+<pre><code>// ... and set the name prop here
+getDefaultProps: function () {
+    return {
+        food: &quot;Pancakes&quot;,
+        name: &quot;Lizzie&quot;
+    };
+},
+render: function () {
+    return (
+        &lt;div&gt;
+            &lt;h4&gt;{this.props.name}&lt;/h4&gt;
+            &lt;p&gt;Favorite food: {this.props.food}&lt;/p&gt;
+        &lt;/div&gt;
+    );
+}
+</code></pre><p>});</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">console.log将会显示如下:</span><br></pre></td></tr></table></figure>
+<p>Uncaught Error: Invariant Violation: mergeObjectsWithNoDuplicateKeys():<br>Tried to merge two objects with the same key: name<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">所以不能这样做滴，Okay？  </span><br><span class="line">当我们使用相同状态和属性时将会报这种错，所以别这样~  </span><br><span class="line">[JSFiddle example](http://jsfiddle.net/veddermatic/qzh0ug5y/4/) (瞅瞅例子)</span><br><span class="line">###Tips:设置相同方法</span><br><span class="line">在多个mixins个组件中创建了相同方法名时，一样会报错</span><br></pre></td></tr></table></figure></p>
+<p>var LogOnMountMixin = {<br>    componentDidMount: function () {<br>        console.log(“mixin mount method”);<br>        this.logBlah()<br>    },<br>    // add a logBlah method here…<br>    logBlah: function () {<br>        console.log(“blah”);<br>    }<br>};</p>
+<p>var MoreLogOnMountMixin = {<br>    componentDidMount: function () {<br>        console.log(“another mixin mount method”);<br>    },<br>    // … and again here.<br>    logBlah: function () {<br>        console.log(“something other than blah”);<br>    }<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">会生成如下信息:</span><br></pre></td></tr></table></figure></p>
+<p>Uncaught Error: Invariant Violation: ReactCompositeComponentInterface:<br>You are attempting to define <code>logBlah</code> on your component more than once.<br>This conflict may be due to a mixin.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">###Tips:多种生命周期方法被调用的执行顺序</span><br><span class="line">当我们的component和mixin都含有生命周期方法时，会发生什么呢</span><br></pre></td></tr></table></figure></p>
+<p>var LogOnMountMixin = {<br>    componentDidMount: function () {<br>        console.log(“mixin mount method”);<br>    }<br>};</p>
+<p>var ComponentOne = React.createClass({<br>    mixins: [LogOnMountMixin],<br>    componentDidMount: function () {<br>        console.log(“component one mount method”);<br>    },<br>    render: function() {<br>        return </p><h2>Hello {this.props.name}</h2>;<br>    }<br>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我们的mixin方法始终会先执行。我们可以看到console:</span><br></pre></td></tr></table></figure><p></p>
+<p>mixin mount method<br>component one mount method<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当我们include多个mixin时，他们会从左到右执行</span><br></pre></td></tr></table></figure></p>
+<p>var LogOnMountMixin = {<br>    componentDidMount: function () {<br>        console.log(“mixin mount method”);<br>    }<br>};</p>
+<p>var MoreLogOnMountMixin = {<br>    componentDidMount: function () {<br>        console.log(“another mixin mount method”);<br>    }<br>};<br>var ComponentOne = React.createClass({<br>    mixins: [MoreLogOnMountMixin, LogOnMountMixin],<br>    componentDidMount: function () {<br>        console.log(“component one mount method”);<br>    },<br>    …</p>
+<p>var ComponentTwo = React.createClass({<br>    mixins: [LogOnMountMixin, MoreLogOnMountMixin],<br>    componentDidMount: function () {<br>        console.log(“component two mount method”);<br>    },<br>    …<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">控制台会如下</span><br></pre></td></tr></table></figure></p>
+<p>another mixin mount method<br>mixin mount method<br>component one mount method</p>
+<p>mixin mount method<br>another mixin mount method<br>component two mount method</p>
+<p><code>`</code></p>
+<p>如果心情好的话，继续戳戳看<a href="http://jsfiddle.net/qzh0ug5y/15/" target="_blank" rel="noopener">JSFiddle example</a></p>
+<p>作为一个好的开发者，你不应该依靠顺序来执行，但是如果你非要这么做，看看我的笔记就好了。😃</p>
+<p>##总结</p>
+<p>当你用React开发app时候Mixins是个很简单高复用的东西<br>It’s a Good Thing™.</p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2015/06/01/react-mixin/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2015/06/01/react-mixin/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2015/06/01/react-mixin/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2015/06/01/react-mixin/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2015/06/01/one/">
+        ← June
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2015/03/09/bash自定义命令/">
+        bash自定义命令 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2015/06/01/react-mixin/" data-title="译React Mixins" data-url="http://bluetomlee.github.io/2015/06/01/react-mixin/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>
