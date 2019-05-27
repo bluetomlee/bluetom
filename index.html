@@ -45,6 +45,108 @@
   <article class="post">
     <header class="post-header">
       <span class="post-meta">
+      <time datetime="2019-05-27T12:52:46.000Z" itemprop="datePublished">
+          2019-05-27
+      </time>
+    
+</span>
+      <h3 class="post-title"><a href="/2019/05/27/Time-Slicing-和Suspense实现/">Time Slicing 和Suspense实现</a></h3>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        time slice时间分片，render不会阻塞线程，整段渲染
+Suspense主要解决网络io问题，避免redux、soga库的副作用，以同步方式写异步组件。
+最应用的例子就是：一张图片加载，抖动内容区域。用Suspense就可以完美解决，在图片加载完后，render整个区域。
+具体实现可以看这里createFeatcher
+12345678910111213141516const getBulbasaur = () =&gt;  
+      
+      </p>
+      
+      <p class="readMore">
+          <a href="/2019/05/27/Time-Slicing-和Suspense实现/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-05-27T12:51:59.000Z" itemprop="datePublished">
+          2019-05-27
+      </time>
+    
+    
+    | 
+    <a href="/tags/react/">react</a>
+    
+    
+</span>
+      <h3 class="post-title"><a href="/2019/05/27/vdom解析/">vdom解析</a></h3>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言谈到vdom，vue借鉴snabbdom、react的vdom拿司徒的介绍来说：
+
+最开始经典的深度优先遍历DFS算法，其复杂度为O(n^3)，存在高昂的diff成本，然后是cito.js的横空出世，它对今后所有虚拟DOM的算法都有重大影响。它采用两端同时进行比较的算法，将diff速度拉高到几个层次。紧随其后的是kivi.js，在cito.js的基出提出两项优化方案，使用key实现移动追踪及基于key的编辑长度距离算法应用（算法复杂
+      
+      </p>
+      
+      <p class="readMore">
+          <a href="/2019/05/27/vdom解析/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-05-27T12:49:59.000Z" itemprop="datePublished">
+          2019-05-27
+      </time>
+    
+</span>
+      <h3 class="post-title"><a href="/2019/05/27/why-use-hook/">why use hook?</a></h3>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+Not magic，just array
+
+组件化组织
+
+hoc
+
+定义：已component为参数，包装成一个新组建
+
+缺点：hoc当组合多个的时候，代码维护及阅读成本指数上升。
+高阶组件对于使用者来说里面是黑盒的，数据公用逻辑处理怎么。这种就不适用hoc
+
+
+
+render-props
+定义：通过一个函数将class组件的state作为props传递给纯函数组件
+缺点：嵌套较多，地狱回调。如何性能优化
+
+
+生命周期就是个错误？举个
+      
+      </p>
+      
+      <p class="readMore">
+          <a href="/2019/05/27/why-use-hook/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
       <time datetime="2018-11-19T08:45:25.000Z" itemprop="datePublished">
           2018-11-19
       </time>
@@ -258,114 +360,9 @@ sample：1230	植物-根1	植物-22	植物-3
     </section>
   </article>
   
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-07-12T14:44:00.000Z" itemprop="datePublished">
-          2015-07-12
-      </time>
-    
-</span>
-      <h3 class="post-title"><a href="/2015/07/12/贪嗔痴/">贪嗔痴慢疑</a></h3>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-在大卫·芬奇的《七宗罪》，七大罪行：贪婪，色欲，贪食，嫉妒，懒惰，傲慢，暴怒，而对于佛学中的贪嗔痴慢疑五毒其实可以对比起来
-
-##贪
-###概佛学中的贪，涵盖了多种，财、色、名、食、睡五欲之贪，对应七宗罪则是，贪婪、色欲、贪食。
-人活与世，或苟与畜生，或纯与璞玉
-马斯洛的需求层次分“生理”、”安全“、”社交“、“尊总”、“自我实现”、“超自我”，我并不全部认同这样以偏概全的结论。
-人其实属于动物高级产物，虽不会像动物般无脑求生存，但是
-      
-      </p>
-      
-      <p class="readMore">
-          <a href="/2015/07/12/贪嗔痴/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-07-12T14:44:00.000Z" itemprop="datePublished">
-          2015-07-12
-      </time>
-    
-</span>
-      <h3 class="post-title"><a href="/2015/07/12/blog-野/">野</a></h3>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        参加军训一样的仪式，男男女女穿着迷彩服男生们满生期待的想和女同学队列在一起居然如所愿，指导员让女生交叉10个插入男生队伍中当我排的时候，居然发现了老魏。在宝藏的挖掘中，惊奇发现褐色、棕色、白色的小碗米饭，里面是稀有宝石还是另有玄机，似乎发现白色米粒总孵化着什么，仔细一看，隐约看到蠕动的虫。告诉老妈说第一年上完之后，KPI可以拿10一个老师从口袋中拿出空间蠕虫给我们介绍这只虫子和盘子被打开后，就会像乒乓球一样在可以反弹的空间中返回到反弹者
-      
-      </p>
-      
-      <p class="readMore">
-          <a href="/2015/07/12/blog-野/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2015-07-12T14:44:00.000Z" itemprop="datePublished">
-          2015-07-12
-      </time>
-    
-</span>
-      <h3 class="post-title"><a href="/2015/07/12/beta-share/">betahouse分享-基于fisp+React开发</a></h3>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        #betahouse分享-基于fisp+React开发
-##目录
-
-fisp功能
-fisp原理
-fisp各模块
-
-##React介绍
-
-React原理
-flux架构
-
-##fisp+React
-
-瀑布流demo
-
-##chrome插件开发
-
-content_srcipt各模块介绍
-自定义知乎背景
-
-##程序猿活到老
-
-ANtiRsi
-Flux
-
-
-      
-      </p>
-      
-      <p class="readMore">
-          <a href="/2015/07/12/beta-share/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
   <nav class="pagination" role="pagination">
     
-    <span class="page-number">Page 1 of 12</span>
+    <span class="page-number">Page 1 of 13</span>
     <a class="older-posts" href="/page/2/">Older Posts →</a>
   </nav>
 </main>

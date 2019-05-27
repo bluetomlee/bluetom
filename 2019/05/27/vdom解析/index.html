@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>vdom解析 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-05-27T12:51:59.000Z" itemprop="datePublished">
+          2019-05-27
+      </time>
+    
+    
+    | 
+    <a href="/tags/react/">react</a>
+    
+    
+</span>
+    <h3 class="post-title">vdom解析</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈到vdom，vue借鉴snabbdom、react的vdom拿司徒的介绍来说：</p>
+<blockquote>
+<p>最开始经典的深度优先遍历DFS算法，其复杂度为O(n^3)，存在高昂的diff成本，然后是cito.js的横空出世，它对今后所有虚拟DOM的算法都有重大影响。它采用两端同时进行比较的算法，将diff速度拉高到几个层次。紧随其后的是kivi.js，在cito.js的基出提出两项优化方案，使用key实现移动追踪及基于key的编辑长度距离算法应用（算法复杂度 为O(n^2)）。但这样的diff算法太过复杂了，于是后来者snabbdom将kivi.js进行简化，去掉编辑长度距离算法，调整两端比较算法。速度略有损失，但可读性大大提高。再之后，就是著名的vue2.0 把snabbdom整个库整合掉了。</p>
+</blockquote>
+<p>所以目前VirtualDOM的主流算法大致相同，snabbdom与react的reconilation方式也基本相同。</p>
+<h2 id="什么是vdom"><a href="#什么是vdom" class="headerlink" title="什么是vdom"></a>什么是vdom</h2><p>Shadow DOM和VirtualDom是一回事么？<br>拿react官网的解释来，Shadow DOM是一种浏览器技术，主要用于在Web组件中确定变量和CSS的范围。虚拟DOM是由JavaScript中的库在浏览器API之上实现的概念。<br>而VirtualDom就是虚拟化DOM的JavaScript树，通过vnode,实现无状态的组件，当组件状态发生更新时，然后触发VirtualDom数据的变化，然后通过VirtualDom和真实DOM的比对，再对真实dom更新。<br>通过遍历一个dom，看下属性的数量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> j <span class="keyword">in</span> <span class="built_in">document</span>.body) &#123;</span><br><span class="line"><span class="built_in">console</span>.log(j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>加上事件总共262个，如果再加上无数的子节点。262的指数级增长，所以浏览器维护成本也是很高的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">text</span><br><span class="line">VM14185:<span class="number">2</span> link</span><br><span class="line">VM14185:<span class="number">2</span> vLink</span><br><span class="line">VM14185:<span class="number">2</span> aLink</span><br><span class="line">VM14185:<span class="number">2</span> bgColor</span><br><span class="line">VM14185:<span class="number">2</span> background</span><br><span class="line">VM14185:<span class="number">2</span> onblur</span><br><span class="line">VM14185:<span class="number">2</span> onerror</span><br><span class="line">VM14185:<span class="number">2</span> onfocus</span><br><span class="line">VM14185:<span class="number">2</span> onload</span><br><span class="line">VM14185:<span class="number">2</span> onresize</span><br><span class="line">VM14185:<span class="number">2</span> onscroll</span><br><span class="line">VM14185:<span class="number">2</span> onafterprint</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<h2 id="snabbdom源码解析"><a href="#snabbdom源码解析" class="headerlink" title="snabbdom源码解析"></a>snabbdom源码解析</h2><p>先看vnode结构<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	sel: sel,    <span class="comment">// selector</span></span><br><span class="line">	data: data, <span class="comment">// vnode提供的接口内容</span></span><br><span class="line">	children: children,  <span class="comment">//子节点为vnode</span></span><br><span class="line">	text: text,   <span class="comment">// 如果文本节点，则存储text</span></span><br><span class="line">	elm: elm, <span class="comment">// 当前元素</span></span><br><span class="line">	key: key  <span class="comment">// 序表索引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>了解了结构，再看看h.js他的vnode包装函数，<br>简而言之，通过传入选择器，children，props组装成真正的vdom。<br>这个h类似jsx编译的pragma<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> <span class="title">h</span>(<span class="params">sel, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data = &#123;&#125;, children, text, i;</span><br><span class="line">  <span class="keyword">if</span> (c !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">    data = b;</span><br><span class="line">    <span class="keyword">if</span> (is.array(c)) &#123; children = c; &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (is.primitive(c)) &#123; text = c; &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (is.array(b)) &#123; children = b; &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (is.primitive(b)) &#123; text = b; &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123; data = b; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (is.array(children)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; children.length; ++i) &#123;</span><br><span class="line">      <span class="keyword">if</span> (is.primitive(children[i])) children[i] = VNode(<span class="literal">undefined</span>, <span class="literal">undefined</span>, <span class="literal">undefined</span>, children[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (sel[<span class="number">0</span>] === <span class="string">'s'</span> &amp;&amp; sel[<span class="number">1</span>] === <span class="string">'v'</span> &amp;&amp; sel[<span class="number">2</span>] === <span class="string">'g'</span>) &#123;</span><br><span class="line">    addNS(data, children, sel);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> VNode(sel, data, children, text, <span class="literal">undefined</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>中间的addNS为svg特殊处理<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNS</span>(<span class="params">data, children, sel</span>) </span>&#123;</span><br><span class="line">  data.ns = <span class="string">'http://www.w3.org/2000/svg'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (sel !== <span class="string">'foreignObject'</span> &amp;&amp; children !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; children.length; ++i) &#123;</span><br><span class="line">      addNS(children[i].data, children[i].children, children[i].sel);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>知道了vdom的结构，和生成过程。那来看看他的主流程是怎么运行的。<br>拿官方示例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> snabbdom = <span class="built_in">require</span>(<span class="string">'snabbdom'</span>)</span><br><span class="line"><span class="comment">// 初始化snabbdom,得到patch</span></span><br><span class="line"><span class="keyword">var</span> patch = snabbdom.init([</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'snabbdom/modules/class'</span>),</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'snabbdom/modules/props'</span>),</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'snabbdom/modules/style'</span>),</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'snabbdom/modules/eventlisteners'</span>)</span><br><span class="line">])</span><br><span class="line"><span class="comment">// h是一个生成vnode的包装函数，在工程里,我们通常使用webpack或者browserify对jsx编译</span></span><br><span class="line"><span class="keyword">var</span> h = <span class="built_in">require</span>(<span class="string">'snabbdom/h'</span>)</span><br><span class="line"><span class="comment">// 构造一个virtual dom,在实际中,我们通常希望一个无状态的vnode</span></span><br><span class="line"><span class="comment">// 并且我们通过state来创造vnode</span></span><br><span class="line"><span class="comment">// react使用具有render方法的对象来作为组件,这个组件可以接受props和state</span></span><br><span class="line"><span class="comment">// 在snabbdom里面,我们同样可以实现类似效果</span></span><br><span class="line"><span class="comment">// function component(state)&#123;return h(...)&#125;</span></span><br><span class="line"><span class="keyword">var</span> vnode = </span><br><span class="line">  h(</span><br><span class="line">    <span class="string">'div#container.two.classes'</span>, </span><br><span class="line">    &#123;<span class="attr">on</span>: &#123;<span class="attr">click</span>: someFn&#125;&#125;, </span><br><span class="line">    [ </span><br><span class="line">      h(<span class="string">'span'</span>, &#123;<span class="attr">style</span>: &#123;<span class="attr">fontWeight</span>: <span class="string">'bold'</span>&#125;&#125;, <span class="string">'This is bold'</span>), </span><br><span class="line">      <span class="string">' and this is just normal text'</span>, </span><br><span class="line">      h(<span class="string">'a'</span>, &#123;<span class="attr">props</span>: &#123;<span class="attr">href</span>: <span class="string">'/foo'</span>&#125;&#125;, </span><br><span class="line">      <span class="string">'I\'ll take you places!'</span>)</span><br><span class="line">    ]</span><br><span class="line">  )</span><br><span class="line"><span class="comment">// 得到初始的容器,注意container是一个dom element</span></span><br><span class="line"><span class="keyword">var</span> container = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>)</span><br><span class="line"><span class="comment">// 将vnode patch到container中</span></span><br><span class="line"><span class="comment">// patch函数会对第一个参数做处理,如果第一个参数不是vnode,那么就把它包装成vnode</span></span><br><span class="line"><span class="comment">// patch过后,vnode发生变化,代表了现在virtual dom的状态</span></span><br><span class="line">patch(container, vnode)</span><br><span class="line"><span class="comment">// 创建一个新的vnode</span></span><br><span class="line"><span class="keyword">var</span> newVnode = </span><br><span class="line">  h(</span><br><span class="line">    <span class="string">'div#container.two.classes'</span>, </span><br><span class="line">    &#123;<span class="attr">on</span>: &#123;<span class="attr">click</span>: anotherEventHandler&#125;&#125;, </span><br><span class="line">    [ </span><br><span class="line">      h(<span class="string">'span'</span>, &#123;<span class="attr">style</span>: &#123;<span class="attr">fontWeight</span>: <span class="string">'normal'</span>, <span class="attr">fontStyle</span>: <span class="string">'italics'</span>&#125;&#125;,</span><br><span class="line">      <span class="string">'This is now italics'</span>), </span><br><span class="line">      <span class="string">' and this is still just normal text'</span>, </span><br><span class="line">      h(<span class="string">'a'</span>, &#123;<span class="attr">props</span>: &#123;<span class="attr">href</span>: <span class="string">'/bar'</span>&#125;&#125;, <span class="string">'I\'ll take you places!'</span>)</span><br><span class="line">    ]</span><br><span class="line">  )</span><br><span class="line"><span class="comment">// 将新的vnode patch到vnode上,现在newVnode代表vdom的状态</span></span><br><span class="line">patch(vnode, newVnode)</span><br></pre></td></tr></table></figure></p>
+<h3 id="snabbdom的diff流程"><a href="#snabbdom的diff流程" class="headerlink" title="snabbdom的diff流程"></a>snabbdom的diff流程</h3><p>核心点就是两个</p>
+<ul>
+<li>同个vnode则更新node</li>
+<li>非同个vnode重建node</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (sameVnode(oldVnode, vnode)) &#123;</span><br><span class="line">  patchVnode(oldVnode, vnode, insertedVnodeQueue);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  elm = oldVnode.elm;</span><br><span class="line">  parent = api.parentNode(elm);</span><br><span class="line"></span><br><span class="line">  createElm(vnode, insertedVnodeQueue);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (parent !== <span class="literal">null</span>) &#123;</span><br><span class="line">    api.insertBefore(parent, vnode.elm, api.nextSibling(elm));</span><br><span class="line">    removeVnodes(parent, [oldVnode], <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是看第一个条件<em>同个vnode则更新node</em><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// key和sel作比对</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sameVnode</span>(<span class="params">vnode1, vnode2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> vnode1.key === vnode2.key &amp;&amp; vnode1.sel === vnode2.sel;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>用key和选择器做判断，所以在vue或者react中数组里用index作为key也就没有效果了。</p>
+<h3 id="子元素递归处理"><a href="#子元素递归处理" class="headerlink" title="子元素递归处理"></a>子元素递归处理</h3><p>总共两个阶段 ：<br>第一阶段是对比，新旧children数组至少有个全部都被对比过。<br>第二阶段是批量更新，如果新数组全部对比过，旧数组剩下的应该被删除了，如果旧数据全部对比过，新的剩余该增加。</p>
+<h4 id="第一阶段"><a href="#第一阶段" class="headerlink" title="第一阶段"></a>第一阶段</h4><p>孩子遍历的对比有五种<br>1.新老起始vnode为同一个，则更新<br>2.新老结束vnode为同一个，则更新<br>3.老的起始和新结束为同一个，说明老数组向右移动了，放在数组最后一个<br>4.老的结束和新的开始为同一个，说明老数组向左移动了，放在数组第一个<br>5.根据key匹配<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateChildren</span>(<span class="params">parentElm, oldCh, newCh, insertedVnodeQueue</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> oldStartIdx = <span class="number">0</span>, newStartIdx = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> oldEndIdx = oldCh.length - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">var</span> oldStartVnode = oldCh[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">var</span> oldEndVnode = oldCh[oldEndIdx];</span><br><span class="line">  <span class="keyword">var</span> newEndIdx = newCh.length - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">var</span> newStartVnode = newCh[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">var</span> newEndVnode = newCh[newEndIdx];</span><br><span class="line">  <span class="keyword">var</span> oldKeyToIdx, idxInOld, elmToMove, before;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 保证一个数组跑完</span></span><br><span class="line">  <span class="keyword">while</span> (oldStartIdx &lt;= oldEndIdx &amp;&amp; newStartIdx &lt;= newEndIdx) &#123;</span><br><span class="line">    <span class="keyword">if</span> (isUndef(oldStartVnode)) &#123;</span><br><span class="line">      oldStartVnode = oldCh[++oldStartIdx]; <span class="comment">// Vnode has been moved left</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isUndef(oldEndVnode)) &#123;</span><br><span class="line">      oldEndVnode = oldCh[--oldEndIdx];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldStartVnode, newStartVnode)) &#123;</span><br><span class="line">      patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);</span><br><span class="line">      oldStartVnode = oldCh[++oldStartIdx];</span><br><span class="line">      newStartVnode = newCh[++newStartIdx];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldEndVnode, newEndVnode)) &#123;</span><br><span class="line">      patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue);</span><br><span class="line">      oldEndVnode = oldCh[--oldEndIdx];</span><br><span class="line">      newEndVnode = newCh[--newEndIdx];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldStartVnode, newEndVnode)) &#123; <span class="comment">// Vnode moved right</span></span><br><span class="line">      patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);</span><br><span class="line">      api.insertBefore(parentElm, oldStartVnode.elm, api.nextSibling(oldEndVnode.elm));</span><br><span class="line">      oldStartVnode = oldCh[++oldStartIdx];</span><br><span class="line">      newEndVnode = newCh[--newEndIdx];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sameVnode(oldEndVnode, newStartVnode)) &#123; <span class="comment">// Vnode moved left</span></span><br><span class="line">      patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);</span><br><span class="line">      api.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm);</span><br><span class="line">      oldEndVnode = oldCh[--oldEndIdx];</span><br><span class="line">      newStartVnode = newCh[++newStartIdx];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);</span><br><span class="line">      idxInOld = oldKeyToIdx[newStartVnode.key];</span><br><span class="line">      <span class="keyword">if</span> (isUndef(idxInOld)) &#123; <span class="comment">// New element</span></span><br><span class="line">        api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);</span><br><span class="line">        newStartVnode = newCh[++newStartIdx];</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        elmToMove = oldCh[idxInOld];</span><br><span class="line">        patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);</span><br><span class="line">        oldCh[idxInOld] = <span class="literal">undefined</span>;</span><br><span class="line">        api.insertBefore(parentElm, elmToMove.elm, oldStartVnode.elm);</span><br><span class="line">        newStartVnode = newCh[++newStartIdx];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">if</span> (oldStartIdx &gt; oldEndIdx) &#123;</span><br><span class="line">     before = isUndef(newCh[newEndIdx+<span class="number">1</span>]) ? <span class="literal">null</span> : newCh[newEndIdx+<span class="number">1</span>].elm;</span><br><span class="line">     addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx, insertedVnodeQueue);</span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (newStartIdx &gt; newEndIdx) &#123;</span><br><span class="line">     removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="react的diff流程"><a href="#react的diff流程" class="headerlink" title="react的diff流程"></a>react的diff流程</h2><p>1.比对不同类型的元素<br>    销毁、重建<br>2.比对同一类型的元素（shouldUpdateReactComponent）<br>     更新属性<br>3.比对同类型的组件<br>    只更新props<br>4.子节点递归<br>在默认条件下，当递归 DOM 节点的子元素时，React 会同时遍历两个子元素的列表；当产生差异时，生成一个 mutation。<br><a href="https://reactjs.org/docs/reconciliation.html" target="_blank" rel="noopener">参考react的官网解释</a></p>
+<p>同类型更新流程<br><img src="https://intranetproxy.alipay.com/skylark/lark/0/2019/png/77345/1558910386059-9a898ece-3434-422e-9dd6-f676092a9b60.png" alt="undefined"> </p>
+<p><a href="https://holmeshe.me/understanding-react-js-source-code-virtual-dom-diff-IX/#ReactDOMComponent-reconcilerUpdateChildren-%E2%80%94-Virtual-DOM-operations" target="_blank" rel="noopener">https://holmeshe.me/understanding-react-js-source-code-virtual-dom-diff-IX/#ReactDOMComponent-reconcilerUpdateChildren-%E2%80%94-Virtual-DOM-operations</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">_updateRenderedComponent: function (transaction, context) &#123;</span><br><span class="line">  var prevComponentInstance = this._renderedComponent; // scr: -&gt; 1)</span><br><span class="line"></span><br><span class="line">  // scr: ------------------------------------------------------&gt; 2)</span><br><span class="line">  var prevRenderedElement = prevComponentInstance._currentElement;</span><br><span class="line"></span><br><span class="line">  // scr: create a new DOM tree</span><br><span class="line">  var nextRenderedElement = this._renderValidatedComponent();</span><br><span class="line"></span><br><span class="line">  var debugID = 0;</span><br><span class="line"></span><br><span class="line">  // scr: DEV code</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">  if (shouldUpdateReactComponent( // scr: ----------------------&gt; 3)</span><br><span class="line">      prevRenderedElement,</span><br><span class="line">      nextRenderedElement)</span><br><span class="line">  ) &#123;</span><br><span class="line">    ReactReconciler.receiveComponent( // scr: ------------------&gt; 5)</span><br><span class="line">      prevComponentInstance,</span><br><span class="line">      nextRenderedElement,</span><br><span class="line">      transaction,</span><br><span class="line">      this._processChildContext(context)</span><br><span class="line">    );</span><br><span class="line">  &#125; else &#123; // scr: ---------------------------------------------&gt; 4)</span><br><span class="line">  // scr: code that is not applicable this time</span><br><span class="line">...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>类似的库可以看mithril, inferno, kivi, frzr</p>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2019/05/27/vdom解析/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2019/05/27/vdom解析/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2019/05/27/vdom解析/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2019/05/27/vdom解析/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2019/05/27/Time-Slicing-和Suspense实现/">
+        ← Time Slicing 和Suspense实现
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2019/05/27/why-use-hook/">
+        why use hook? →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2019/05/27/vdom解析/" data-title="vdom解析" data-url="http://bluetomlee.github.io/2019/05/27/vdom解析/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

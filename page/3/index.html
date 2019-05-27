@@ -45,6 +45,106 @@
   <article class="post">
     <header class="post-header">
       <span class="post-meta">
+      <time datetime="2015-07-01T14:44:00.000Z" itemprop="datePublished">
+          2015-07-01
+      </time>
+    
+</span>
+      <h3 class="post-title"><a href="/2015/07/01/fisp/">fisp上线整理</a></h3>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+好久没发博了。整理下原来关于fisp知识。曾几何时，窃以为fis | fisp是为了前端自动化部署的环境Grunt、Gulp这种用node自己随便配配不是一样的效果，但是但是想错了smarty组合整理后台数据及前端模块片段，fis遵从commonjs以widget方式开发。也是Web Components的思想，do it
+
+##搭建篇
+###环境node.js+php一个不能少
+123npm install -g fispbrew 
+      
+      </p>
+      
+      <p class="readMore">
+          <a href="/2015/07/01/fisp/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2015-06-01T14:44:00.000Z" itemprop="datePublished">
+          2015-06-01
+      </time>
+    
+</span>
+      <h3 class="post-title"><a href="/2015/06/01/one/">June</a></h3>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        #June
+
+一个人时候，脑波不由自主会扩散胡思乱想，这样容易导致情绪被脑波控制光怪陆离的梦不然都是从哪里来的呢越来越喜欢写字带来的快感，和自己mirror的对话同时，你在20年后，说不定还能看到你自己的想法正如你现在看5年前的自己
+
+##近期List
+
+练字养性
+毕业旅行 
+日程清单
+后期+video 
+
+
+FE
+基于node的sgk
+MangoDB
+Webgl 
+React Native进阶（Music-Player）
+Node-W
+      
+      </p>
+      
+      <p class="readMore">
+          <a href="/2015/06/01/one/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2015-06-01T14:44:00.000Z" itemprop="datePublished">
+          2015-06-01
+      </time>
+    
+</span>
+      <h3 class="post-title"><a href="/2015/06/01/react-mixin/">译React Mixins</a></h3>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        #译React Mixins
+
+翻译《React Mixins By Example》原文
+
+##做一个简单的Mixin
+来开始创建一个app，因为一些原因我们总要设置默认的12宁愿每次写一样的```getDefaultProps```方法，其实我们可以创建一个像这样的mixin
+var DefaultNameMixin = {    getDefaultProps: function () {        return {name:
+      
+      </p>
+      
+      <p class="readMore">
+          <a href="/2015/06/01/react-mixin/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
       <time datetime="2015-03-09T05:46:00.000Z" itemprop="datePublished">
           2015-03-09
       </time>
@@ -286,111 +386,9 @@ Running &quot;concurrent:
     </section>
   </article>
   
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2014-11-12T14:44:00.000Z" itemprop="datePublished">
-          2014-11-12
-      </time>
-    
-</span>
-      <h3 class="post-title"><a href="/2014/11/12/xss小记-1/">xss小记(1)</a></h3>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        看《白帽子讲web安全》笔记整理
-xss本身叫css的(cross site script)
-但是为了区分style sheet简称xss
-xss基本分为如下三种
-1.反射型XSS
-需要用户触发点击
-2.存储型XSS
-强稳定性，因存储在服务器上,当用户访问到脚本时候，即可构成攻击
-3.DOM-xss
- 严格意义上说也属于反射型XSS，通过修改页面DOM节点形成xss
-
- 通过构建html
-
- example:
-
-1234&amp;lt;
-      
-      </p>
-      
-      <p class="readMore">
-          <a href="/2014/11/12/xss小记-1/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2014-11-12T14:29:00.000Z" itemprop="datePublished">
-          2014-11-12
-      </time>
-    
-</span>
-      <h3 class="post-title"><a href="/2014/11/12/absolute和margin终极对决/">absolute和margin终极对决</a></h3>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        某日,苗苗问我position和margin做动画时哪个性能好,当时我回答:
-设置position:absolute时，浏览器会重新增加一篇渲染区域，
-而margin在同一渲染区，所以margin性能会好些
-不料网上的结论说absolute好于margin，因为margin-left这种属性不断改变时候，
-这个dom节点会不断reflow,而position再另片渲染区域引起的reflow就小很多。
-同事觉得依情况而定，未必absolu
-      
-      </p>
-      
-      <p class="readMore">
-          <a href="/2014/11/12/absolute和margin终极对决/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2014-11-07T08:28:00.000Z" itemprop="datePublished">
-          2014-11-07
-      </time>
-    
-</span>
-      <h3 class="post-title"><a href="/2014/11/07/html-tag-filter/">html-tag-filter</a></h3>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        后台传过来的html，需要过滤style类似多余属性
-如果操作dom用jquery很方便的removeAttr()即可
-纯文本还是需要正则的，手写个过滤器
-需要说明的是,正则增加js变量写法就不一样了
-两种方式
-1.通过构造函数new RegExp()字符串和变量拼接实现
-2.通过eval解析并执行,但是极不推荐,性能和安全是问题.
-js如下
-(function(){
-    var doc= document;
-        a =
-      
-      </p>
-      
-      <p class="readMore">
-          <a href="/2014/11/07/html-tag-filter/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
   <nav class="pagination" role="pagination">
     <a class="newer-posts" href="/page/2/">← Newer Posts</a>
-    <span class="page-number">Page 3 of 12</span>
+    <span class="page-number">Page 3 of 13</span>
     <a class="older-posts" href="/page/4/">Older Posts →</a>
   </nav>
 </main>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Time Slicing 和Suspense实现 | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-05-27T12:52:46.000Z" itemprop="datePublished">
+          2019-05-27
+      </time>
+    
+</span>
+    <h3 class="post-title">Time Slicing 和Suspense实现</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <p>time slice时间分片，render不会阻塞线程，整段渲染</p>
+<p>Suspense主要解决网络io问题，避免redux、soga库的副作用，以同步方式写异步组件。</p>
+<p>最应用的例子就是：一张图片加载，抖动内容区域。用Suspense就可以完美解决，在图片加载完后，render整个区域。</p>
+<p>具体实现可以看这里<a href="https://gist.github.com/dasblitz/6f8841bc71f1d82f3ce7214a21ad64db" target="_blank" rel="noopener">createFeatcher</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const getBulbasaur = () =&gt;</span><br><span class="line">  fetch(&quot;https://pokeapi.co/api/v2/pokemon/1/&quot;).then(res =&gt; res.json());</span><br><span class="line"></span><br><span class="line">const ApiResource = createResource(getBulbasaur);</span><br><span class="line"></span><br><span class="line">const Pokemon = () =&gt; &#123;</span><br><span class="line">  const bulbasaur = ApiResource.read();</span><br><span class="line"></span><br><span class="line">  return &lt;div&gt;Hello &#123;bulbasaur.name&#125;&lt;/div&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const App = () =&gt; (</span><br><span class="line">  &lt;Suspense fallback=&#123;&lt;div&gt;Let&apos;s wait :D&lt;/div&gt;&#125;&gt;</span><br><span class="line">    &lt;Pokemon /&gt;</span><br><span class="line">  &lt;/Suspense&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h4 id="禁止capture-value特性"><a href="#禁止capture-value特性" class="headerlink" title="禁止capture value特性"></a>禁止capture value特性</h4><p>示例代码，输入123后，再点击send按钮，再3s结束前飞速输入aaa，alert出来的猜猜是。</p>
+<p>由于useState获取到的是send按钮时的message，所以并不是123aaa，而是123</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">function MessageThread() &#123;</span><br><span class="line">  const [message, setMessage] = useState(&quot;&quot;);</span><br><span class="line"></span><br><span class="line">  const showMessage = () =&gt; &#123;</span><br><span class="line">    alert(&quot;You said: &quot; + message);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  const handleSendClick = () =&gt; &#123;</span><br><span class="line">    setTimeout(showMessage, 3000);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  const handleMessageChange = e =&gt; &#123;</span><br><span class="line">    setMessage(e.target.value);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;input value=&#123;message&#125; onChange=&#123;handleMessageChange&#125; /&gt;</span><br><span class="line">      &lt;button onClick=&#123;handleSendClick&#125;&gt;Send&lt;/button&gt;</span><br><span class="line">    &lt;/&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用<code>useRef</code>来规避</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function MessageThread() &#123;</span><br><span class="line">  const latestMessage = useRef(&quot;&quot;);</span><br><span class="line"></span><br><span class="line">  const showMessage = () =&gt; &#123;</span><br><span class="line">    alert(&quot;You said: &quot; + latestMessage.current);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  const handleSendClick = () =&gt; &#123;</span><br><span class="line">    setTimeout(showMessage, 3000);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  const handleMessageChange = e =&gt; &#123;</span><br><span class="line">    latestMessage.current = e.target.value;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="规避setInterval问题"><a href="#规避setInterval问题" class="headerlink" title="规避setInterval问题"></a>规避setInterval问题</h4><p>三种解决办法</p>
+<p>1.useEffect调用，传入引用值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const [time, setTime] = React.useState(0);</span><br><span class="line">  React.useEffect(() =&gt; &#123;</span><br><span class="line">    const timer = setTimeout(() =&gt; &#123;</span><br><span class="line">      setTime(time + 1);</span><br><span class="line">    &#125;, 1000);</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      clearInterval(timer);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, [time]);</span><br></pre></td></tr></table></figure>
+<p>2.手写useInterval</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 使用useInterval代替setInterval</span><br><span class="line"></span><br><span class="line">const useInterval = (callback, delay) =&gt; &#123;</span><br><span class="line">  const sourceVCallback = useRef();</span><br><span class="line">  </span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    sourceCallback.current = callback;</span><br><span class="line">  &#125;, [callback]);</span><br><span class="line">  </span><br><span class="line">  useEffect(() =&gt; &#123;</span><br><span class="line">    const tick = () =&gt; sourceVCallback.current();</span><br><span class="line">    </span><br><span class="line">    if (delay !== null) &#123;</span><br><span class="line">      id = setInterval(tick, delay);</span><br><span class="line">      return clearInterval(id);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [delay]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.useEffect中已回调更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Clock() &#123;</span><br><span class="line">  const [time, setTime] = React.useState(0);</span><br><span class="line">  React.useEffect(() =&gt; &#123;</span><br><span class="line">    const timer = window.setInterval(() =&gt; &#123;</span><br><span class="line">      setTime(prevTime =&gt; prevTime + 1); // &lt;-- Change this line!</span><br><span class="line">    &#125;, 1000);</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      window.clearInterval(timer);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;Seconds: &#123;time&#125;&lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2019/05/27/Time-Slicing-和Suspense实现/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2019/05/27/Time-Slicing-和Suspense实现/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2019/05/27/Time-Slicing-和Suspense实现/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2019/05/27/Time-Slicing-和Suspense实现/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2019/05/27/vdom解析/">
+        vdom解析 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2019/05/27/Time-Slicing-和Suspense实现/" data-title="Time Slicing 和Suspense实现" data-url="http://bluetomlee.github.io/2019/05/27/Time-Slicing-和Suspense实现/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>

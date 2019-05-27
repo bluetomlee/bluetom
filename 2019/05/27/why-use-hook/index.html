@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>why use hook? | Bluetom</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <meta name="generator" content="Bluetom">
+
+  
+  
+  
+
+  
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body class="home-template">
+<div id="perspective" class="perspective effect-movedown">
+  <div class="container">
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <header class="site-head" style="background-image: url(/img/img-bg.jpg)">
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" style="display:none" href="/"><img src="/img/logo.svg" alt="Blog Logo"></a> 
+            <h1 class="blog-title"><a href="/">Bluetom</a></h1>
+            <h2 class="blog-description"><button id="showMenu">Show Menu</button></h2>
+        </div>
+    </div>
+</header>
+
+      
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-05-27T12:49:59.000Z" itemprop="datePublished">
+          2019-05-27
+      </time>
+    
+</span>
+    <h3 class="post-title">why use hook?</h3>
+    <section class="post-content" style="margin-top: 10px;">
+      <blockquote>
+<p>Not magic，just array</p>
+</blockquote>
+<p>组件化组织</p>
+<ul>
+<li><p>hoc</p>
+<ul>
+<li><p>定义：已component为参数，包装成一个新组建</p>
+</li>
+<li><p>缺点：hoc当组合多个的时候，代码维护及阅读成本指数上升。</p>
+<p>高阶组件对于使用者来说里面是黑盒的，数据公用逻辑处理怎么。这种就不适用hoc</p>
+</li>
+</ul>
+</li>
+<li><p>render-props</p>
+<p>定义：通过一个函数将class组件的state作为props传递给纯函数组件</p>
+<p>缺点：嵌套较多，地狱回调。如何性能优化</p>
+</li>
+</ul>
+<h3 id="生命周期就是个错误？"><a href="#生命周期就是个错误？" class="headerlink" title="生命周期就是个错误？"></a>生命周期就是个错误？</h3><p>举个🌰，写一个绑定事件。当生命周期较多时，加上各种埋点逻辑，how 2 play？有没有更优的解决方案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class SomeCompoent extends Component &#123;</span><br><span class="line">	</span><br><span class="line">  componetDidMount() &#123;</span><br><span class="line">    const node = this.refs[&apos;myRef&apos;];</span><br><span class="line">    node.addEventListener(&apos;mouseDown&apos;, handlerMouseDown);</span><br><span class="line">    node.addEventListener(&apos;mouseUp&apos;, handlerMouseUp)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  ...</span><br><span class="line">  </span><br><span class="line">  componetWillunmount() &#123;</span><br><span class="line">    const node = this.refs[&apos;myRef&apos;];</span><br><span class="line">    node.removeEventListener(&apos;mouseDown&apos;, handlerMouseDown)</span><br><span class="line">    node.removeEventListener(&apos;mouseUp&apos;, handlerMouseUp)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="编译体积"><a href="#编译体积" class="headerlink" title="编译体积"></a>编译体积</h3><p>当今react组件化的两种种方式：</p>
+<ul>
+<li>Stateless Function Component</li>
+<li>Class Component<br>拿一个react的Class Component做demo，编译前是以下代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class MyComponentClass extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;div&gt;&#123;this.props.name&#125;&lt;/div&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Function Component编译后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const MyStatelessComponent = props =&gt; &lt;div&gt;&#123;props.name&#125;&lt;/div&gt;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// after</span><br><span class="line">var MyStatelessComponent = function MyStatelessComponent(props) &#123;</span><br><span class="line">  return React.createElement(</span><br><span class="line">    &quot;div&quot;,</span><br><span class="line">    null,</span><br><span class="line">    props.name</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Class Component编译后，无比臃肿。hot reload性能也会变差</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">var _createClass = function () &#123; function defineProperties(target, props) &#123; for (var i = 0; i &lt; props.length; i++) &#123; var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (&quot;value&quot; in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); &#125; &#125; return function (Constructor, protoProps, staticProps) &#123; if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; &#125;; &#125;();</span><br><span class="line">function _classCallCheck(instance, Constructor) &#123; if (!(instance instanceof Constructor)) &#123; throw new TypeError(&quot;Cannot call a class as a function&quot;); &#125; &#125;</span><br><span class="line">function _possibleConstructorReturn(self, call) &#123; if (!self) &#123; throw new ReferenceError(&quot;this hasn&apos;t been initialised - super() hasn&apos;t been called&quot;); &#125; return call &amp;&amp; (typeof call === &quot;object&quot; || typeof call === &quot;function&quot;) ? call : self; &#125;</span><br><span class="line">function _inherits(subClass, superClass) &#123; if (typeof superClass !== &quot;function&quot; &amp;&amp; superClass !== null) &#123; throw new TypeError(&quot;Super expression must either be null or a function, not &quot; + typeof superClass); &#125; subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, &#123; constructor: &#123; value: subClass, enumerable: false, writable: true, configurable: true &#125; &#125;); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; &#125;</span><br><span class="line">var MyComponentClass = function (_React$Component) &#123;</span><br><span class="line">  _inherits(MyComponentClass, _React$Component);</span><br><span class="line">function MyComponentClass() &#123;</span><br><span class="line">    _classCallCheck(this, MyComponentClass);</span><br><span class="line">return _possibleConstructorReturn(this, (MyComponentClass.__proto__ || Object.getPrototypeOf(MyComponentClass)).apply(this, arguments));</span><br><span class="line">  &#125;</span><br><span class="line">_createClass(MyComponentClass, [&#123;</span><br><span class="line">    key: &quot;render&quot;,</span><br><span class="line">    value: function render() &#123;</span><br><span class="line">      return React.createElement(</span><br><span class="line">        &quot;div&quot;,</span><br><span class="line">        null,</span><br><span class="line">        this.props.name</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;]);</span><br><span class="line">return MyComponentClass;</span><br><span class="line">&#125;(React.Component);</span><br></pre></td></tr></table></figure>
+<p>functional component对比具体可以看这篇<a href="https://itnext.io/react-component-class-vs-stateless-component-e3797c7d23ab" target="_blank" rel="noopener">React: Class Component vs Functional Component</a></p>
+<p>综上针对以下缺点</p>
+<ul>
+<li>编译体积大</li>
+<li>生命周期过多，维护成本高</li>
+<li>通过hoc包装组件，复杂组件会更多且阅读困难</li>
+</ul>
+<p>hook应运而生。</p>
+<h2 id="hook做了什么"><a href="#hook做了什么" class="headerlink" title="hook做了什么"></a>hook做了什么</h2><p>先看下他的基本api，分了三类</p>
+<ul>
+<li>state hook：获取当前state</li>
+<li>effect hook：可以让 function componet 使用生命周期和 side effect</li>
+<li>custom hook：根据 react 提供的 useState、useReducer、useEffect、useRef等自定义自己需要的 hooks</li>
+</ul>
+<p>9个hook列表如下:</p>
+<ul>
+<li>useState</li>
+<li>usEffect</li>
+<li>useContext</li>
+<li>useReducer</li>
+<li>useCallback</li>
+<li>useMemo</li>
+<li>useRef</li>
+<li>useImperativeHandle</li>
+<li>useLayoutEffect</li>
+</ul>
+<h4 id="state-hook"><a href="#state-hook" class="headerlink" title="state hook"></a>state hook</h4><p>一个组件中，使用useState获取一个state值及对应的setState。入参是trigger默认值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const App = () =&gt; &#123;</span><br><span class="line">  const [trigger, setTrigger] = useState(true);</span><br><span class="line">  const [mounted, setMount] = useState(true);</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; setTrigger(!trigger)&#125;&gt;Trigger Update&lt;/button&gt;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; setMount(!mounted)&#125;&gt;Toggle Mount&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">      &#123;mounted ? &lt;Position /&gt; : null&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="effetc-hook"><a href="#effetc-hook" class="headerlink" title="effetc hook"></a>effetc hook</h4><p>useEffect等价于componentDidMount注册mousemove，返回的函数会在componentWillUnmount时触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">useEffect(() =&gt; &#123;</span><br><span class="line">  window.addEventListener(&quot;mousemove&quot;, logMousePosition);</span><br><span class="line">  console.log(&quot;Created&quot;);</span><br><span class="line">  return () =&gt; &#123;</span><br><span class="line">    console.log(&quot;Cleaned up&quot;);</span><br><span class="line">    window.removeEventListener(&quot;mousemove&quot;, logMousePosition);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="useReducer"><a href="#useReducer" class="headerlink" title="useReducer"></a>useReducer</h4><p>相当于实现了一个redux。入参一个action，initialState。返回当前state和dispatch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const initialState = &#123;count: 0&#125;;</span><br><span class="line"></span><br><span class="line">function reducer(state, action) &#123;</span><br><span class="line">  switch (action.type) &#123;</span><br><span class="line">    case &apos;increment&apos;:</span><br><span class="line">      return &#123;count: state.count + 1&#125;;</span><br><span class="line">    case &apos;decrement&apos;:</span><br><span class="line">      return &#123;count: state.count - 1&#125;;</span><br><span class="line">    default:</span><br><span class="line">      throw new Error();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Counter() &#123;</span><br><span class="line">  const [state, dispatch] = useReducer(reducer, initialState);</span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      Count: &#123;state.count&#125;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; dispatch(&#123;type: &apos;increment&apos;&#125;)&#125;&gt;+&lt;/button&gt;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; dispatch(&#123;type: &apos;decrement&apos;&#125;)&#125;&gt;-&lt;/button&gt;</span><br><span class="line">    &lt;/&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Bluetom</h4>
+    <p>作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj</p>
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=作为挨踢业的前段湿 搬过砖也画过画：爱看、爱听、爱玩儿、爱折腾、爱打撸啊撸、intj ?url=http://bluetomlee.github.io/2019/05/27/why-use-hook/" target="_blank">
+        <span class="hidden">weibo</span>
+    </a>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://bluetomlee.github.io/2019/05/27/why-use-hook/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bluetomlee.github.io/2019/05/27/why-use-hook/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bluetomlee.github.io/2019/05/27/why-use-hook/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2019/05/27/vdom解析/">
+        ← vdom解析
+    </a>
+    
+    <span class="icon-logo">•</span>
+    
+    <a class="older-posts" href="/2018/11/19/svelte前生今世/">
+        svelte前生今世 →
+    </a>
+    
+</nav>
+
+  <div id="comment" class="comments-area">
+    <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="2019/05/27/why-use-hook/" data-title="why use hook?" data-url="http://bluetomlee.github.io/2019/05/27/why-use-hook/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bluetomlee"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </div>
+
+</main>
+
+
+      
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Bluetom</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="/js/menu.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-72355167-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+
+
+
+  </div>
+</div>
+
+<nav  class="outer-nav top horizontal">
+
+          <a class="icon-home"  href="/"><span>Home</span></a>
+
+          <a class="icon-news"  href="/archive"><span>Archive</span></a>
+
+          <a class="icon-image"  href="/images"><span>Images</span></a>
+
+          <a class="icon-mail"  href="/about/"><span>Contact</span></a>
+
+</nav>
+
+</div>
+</body>
+</html>
