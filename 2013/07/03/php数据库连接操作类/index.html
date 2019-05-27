@@ -220,23 +220,18 @@ $this-&amp;gt;db-&amp;gt;query_noResult($this-&amp;gt;sql);
     
 </nav>
 
-  <div id="comment" class="comments-area">
-    <!-- 多说评论框 start -->
-      <div class="ds-thread" data-thread-key="2013/07/03/php数据库连接操作类/" data-title="php数据库连接操作类" data-url="http://bluetomlee.github.io/2013/07/03/php数据库连接操作类/"></div>
-    <!-- 多说评论框 end -->
-    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-    <script type="text/javascript">
-    var duoshuoQuery = {short_name:"bluetomlee"};
-      (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//liyi.it/js/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0]
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-      })();
-      </script>
-    <!-- 多说公共JS代码 end -->
+  <div id="vcomments" class="comments-area">
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            appId: 'uqOF3JaDTxGcM3W3isHHVq9Y-gzGzoHsz',
+            appKey: 'h3C2CLvdTKRJ46HQG1SyjW1Y',
+            avatar:'mp',
+            placeholder: '说点什么'
+        })
+    </script>
   </div>
 
 </main>
